@@ -1,0 +1,2 @@
+Summary for /www/javadecompilers/app/public/data/25.12.20/f411f7d016274f167fb09a3ab476b74f/journeyjar.jar
+Decompiled with CFR 0.150

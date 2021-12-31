@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DesktopStub()
+comment1.params=
+comment1.target=boolean\ isActive()
+comment2.params=
+comment2.target=java.net.URL\ getDocumentBase()
+comment3.params=
+comment3.target=java.net.URL\ getCodeBase()
+comment4.params=name
+comment4.target=java.lang.String\ getParameter(java.lang.String)
+comment5.params=
+comment5.target=java.applet.AppletContext\ getAppletContext()
+comment6.params=i\ j
+comment6.target=void\ appletResize(int,\ int)
+numComments=7

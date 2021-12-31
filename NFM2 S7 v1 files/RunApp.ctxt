@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=java.util.ArrayList\ getIcons()
+comment1.params=strings
+comment1.target=void\ main(java.lang.String[])
+comment2.params=
+comment2.target=void\ startup()
+comment3.params=windowevent
+comment3.target=void\ windowClosing(java.awt.event.WindowEvent)
+comment4.params=
+comment4.target=void\ exitsequance()
+comment5.params=tag\ str\ id
+comment5.target=java.lang.String\ getString(java.lang.String,\ java.lang.String,\ int)
+comment6.params=tag\ str\ id
+comment6.target=int\ getInt(java.lang.String,\ java.lang.String,\ int)
+numComments=7

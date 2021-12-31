@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DesktopSoundClip()
+comment1.params=is
+comment1.target=DesktopSoundClip(byte[])
+comment2.params=
+comment2.target=void\ play()
+comment3.params=
+comment3.target=void\ loop()
+comment4.params=
+comment4.target=void\ stop()
+comment5.params=
+comment5.target=void\ checkopen()
+numComments=6

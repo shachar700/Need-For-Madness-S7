@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=i
+comment0.target=byte\ linear2ulawclip(int)
+comment1.params=byte0
+comment1.target=byte\ linear2ulaw(byte)
+comment2.params=i
+comment2.target=byte\ linear2ulaw(int)
+numComments=3

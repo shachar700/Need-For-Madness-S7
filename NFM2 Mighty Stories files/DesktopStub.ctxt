@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=
+comment0.target=boolean\ isActive()
+comment0.text=\r\n\ @inheritdoc\r\n
+comment1.params=
+comment1.target=java.net.URL\ getDocumentBase()
+comment1.text=\r\n\ @inheritdoc\r\n
+comment2.params=
+comment2.target=java.net.URL\ getCodeBase()
+comment2.text=\r\n\ @inheritdoc\r\n
+comment3.params=name
+comment3.target=java.lang.String\ getParameter(java.lang.String)
+comment3.text=\r\n\ This\ method\ is\ not\ implemented.\r\n
+comment4.params=
+comment4.target=java.applet.AppletContext\ getAppletContext()
+comment4.text=\r\n\ @inheritdoc\r\n
+comment5.params=width\ height
+comment5.target=void\ appletResize(int,\ int)
+comment5.text=\r\n\ @inheritdoc\r\n
+numComments=6

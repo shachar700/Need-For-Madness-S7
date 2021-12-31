@@ -1,0 +1,2 @@
+Summary for /www/javadecompilers/app/public/data/23.12.20/2a212809d1f6d1e6388d418cd1a33fdf/editionjar.jar
+Decompiled with CFR 0.150
