@@ -39,8 +39,8 @@ Runnable {
     @Override
     public AudioClip getAudioClip(URL url) {
         try {
-            int size=0;
-            InputStream in = url.openStream();
+            InputStream in = url.openStream();            
+            int size=in.available();
             int read = 0;
             byte[] buffer = new byte[size];
             for (size = in.available(); size > 0; size -= read) {

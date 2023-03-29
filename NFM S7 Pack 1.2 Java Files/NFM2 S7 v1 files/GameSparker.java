@@ -167,37 +167,51 @@ implements Runnable {
         g.drawImage(this.offImage, 0, 0, this);
     }
 
-    public void loadbase(ContO[] aconto, Medium medium, Trackers trackers, xtGraphics xtgraphics) {
-        String[] as = new String[]{"2000tornados", "formula7", "canyenaro", "lescrab", "nimi", "maxrevenge", "leadoxide", "koolkat", "drifter", "policecops", "mustang", "king", "audir8", "masheen", "radicalone", "drmonster", "road", "froad", "twister2", "twister1", "turn", "offroad", "bumproad", "offturn", "nroad", "nturn", "roblend", "noblend", "rnblend", "roadend", "offroadend", "hpground", "ramp30", "cramp35", "dramp15", "dhilo15", "slide10", "takeoff", "sramp22", "offbump", "offramp", "sofframp", "halfpipe", "spikes", "rail", "thewall", "checkpoint", "fixpoint", "offcheckpoint", "sideoff", "bsideoff", "uprise", "riseroad", "sroad", "soffroad"};
+    public void loadbase(ContO aconto[], Medium medium, Trackers trackers, xtGraphics xtgraphics)
+    {
+        String as[] = {
+            "2000tornados", "formula7", "canyenaro", "lescrab", "nimi", "maxrevenge", "leadoxide", "koolkat", "drifter", "policecops", 
+            "mustang", "king", "audir8", "masheen", "radicalone", "drmonster", "road", "froad", "twister2", "twister1", 
+            "turn", "offroad", "bumproad", "offturn", "nroad", "nturn", "roblend", "noblend", "rnblend", "roadend", 
+            "offroadend", "hpground", "ramp30", "cramp35", "dramp15", "dhilo15", "slide10", "takeoff", "sramp22", "offbump", 
+            "offramp", "sofframp", "halfpipe", "spikes", "rail", "thewall", "checkpoint", "fixpoint", "offcheckpoint", "sideoff", 
+            "bsideoff", "uprise", "riseroad", "sroad", "soffroad"
+        };
         xtgraphics.dnload += 6;
-        try {
-            URL url = new URL(this.getCodeBase(), "data/models.radq");
+        try
+        {
+            URL url = new URL(getCodeBase(), "data/models.radq");
             DataInputStream datainputstream = new DataInputStream(url.openStream());
             ZipInputStream zipinputstream = new ZipInputStream(datainputstream);
             ZipEntry zipentry = zipinputstream.getNextEntry();
             Object obj = null;
-            while (zipentry != null) {
-                int l;
+            for(; zipentry != null; zipentry = zipinputstream.getNextEntry())
+            {
                 int i = 0;
                 int j = 0;
-                do {
-                    if (!zipentry.getName().startsWith(as[j])) continue;
-                    i = j;
-                } while (++j < 55);
-                byte[] abyte0 = new byte[j];
+                do
+                    if(zipentry.getName().startsWith(as[j]))
+                        i = j;
+                while(++j < 55);
+                j = (int)zipentry.getSize();
+                byte abyte0[] = new byte[j];
                 int k = 0;
-                for (j = (int)zipentry.getSize(); j > 0; j -= l) {
+                int l;
+                for(; j > 0; j -= l)
+                {
                     l = zipinputstream.read(abyte0, k, j);
                     k += l;
                 }
+
                 aconto[i] = new ContO(abyte0, medium, trackers);
-                ++xtgraphics.dnload;
-                zipentry = zipinputstream.getNextEntry();
+                xtgraphics.dnload++;
             }
+
             datainputstream.close();
             zipinputstream.close();
         }
-        catch (Exception exception) {
+        catch(Exception exception)
+        {
             System.out.println("Error Reading Models: " + exception);
         }
         System.gc();

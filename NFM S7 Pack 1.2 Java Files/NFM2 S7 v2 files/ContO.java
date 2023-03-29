@@ -1,13 +1,80 @@
-// Decompiled by Jad v1.5.8f. Copyright 2001 Pavel Kouznetsov.
-// Jad home page: http://www.kpdus.com/jad.html
-// Decompiler options: packimports(3) 
-// Source File Name:   ContO.java
-
-import java.awt.*;
+import java.awt.Color;
+import java.awt.Graphics;
+import java.awt.Graphics2D;
+import java.awt.AlphaComposite;
 import java.io.*;
 
 public class ContO
 {
+
+    Medium m;
+    Trackers t;
+    Plane p[];
+    int npl;
+    int x;
+    int y;
+    int z;
+    int xz;
+    int xy;
+    int zy;
+    int wxz;
+    int wzy;
+    int dist;
+    int maxR;
+    int disp;
+    int disline;
+    boolean shadow;
+    boolean noline;
+    float grounded;
+    int grat;
+    int rtg[];
+    boolean rbef[];
+    int keyx[];
+    int keyz[];
+    int rx[];
+    int ry[];
+    int rz[];
+    float vrx[];
+    float vry[];
+    float vrz[];
+    int txy[];
+    int tzy[];
+    int srx;
+    int sry;
+    int srz;
+    float rcx;
+    float rcy;
+    float rcz;
+    int tc[][];
+    int tradx[];
+    int tradz[];
+    int trady[];
+    int tx[];
+    int ty[];
+    int tz[];
+    int skd[];
+    int dam[];
+    boolean notwall[];
+    int tnt;
+    int sx[];
+    int sy[];
+    int sz[];
+    int stg[];
+    int sprk;
+    int sprkat;
+    int dov[];
+    float smag[];
+    int scx[];
+    int scz[];
+    boolean fulls[];
+    boolean elec;
+    boolean roted;
+    int edl[];
+    int edr[];
+    int elc[];
+    boolean fix;
+    int fcnt;
+    int checkpoint;
 
     public void pdust(int i, Graphics g, int j)
     {
@@ -15,25 +82,33 @@ public class ContO
         {
             int k;
             if(fulls[i])
+            {
                 k = stg[i] * stg[i];
-            else
+            } else
+            {
                 k = stg[i] * stg[i] * stg[i] + 1;
+            }
             int l = (m.cgrnd[0] * k + m.cfade[0] * 2 + m.csky[0]) / (3 + k);
             int i1 = (m.cgrnd[1] * k + m.cfade[0] * 2 + m.csky[1]) / (3 + k);
             int j1 = (m.cgrnd[2] * k + m.cfade[0] * 2 + m.csky[2]) / (3 + k);
             for(int k1 = 0; k1 < t.nt; k1++)
             {
-                if(Math.abs(t.zy[k1]) == 90 || Math.abs(t.xy[k1]) == 90 || Math.abs(sx[i] - t.x[k1]) >= t.radx[k1] || Math.abs(sz[i] - t.z[k1]) >= t.radz[k1])
-                    continue;
-                if(t.skd[k1] == 0)
-                    k = stg[i] * stg[i] * stg[i] + 2;
-                l = (int)(((double)t.c[k1][0] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[0]) / (double)(3 + k));
-                i1 = (int)(((double)t.c[k1][1] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[1]) / (double)(3 + k));
-                j1 = (int)(((double)t.c[k1][2] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[2]) / (double)(3 + k));
+                if(Math.abs(t.zy[k1]) != 90 && Math.abs(t.xy[k1]) != 90 && Math.abs(sx[i] - t.x[k1]) < t.radx[k1] && Math.abs(sz[i] - t.z[k1]) < t.radz[k1])
+                {
+                    if(t.skd[k1] == 0)
+                    {
+                        k = stg[i] * stg[i] * stg[i] + 2;
+                    }
+                    l = (int)(((double)t.c[k1][0] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[0]) / (double)(3 + k));
+                    i1 = (int)(((double)t.c[k1][1] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[1]) / (double)(3 + k));
+                    j1 = (int)(((double)t.c[k1][2] * 0.87D * (double)k + (double)(m.cfade[0] * 2) + (double)m.csky[2]) / (double)(3 + k));
+                }
             }
 
             if(sy[i] > 250)
+            {
                 sy[i] = 250;
+            }
             int _tmp = sy[i];
             int l1 = m.cx + (int)((float)(sx[i] - m.x - m.cx) * m.cos(m.xz) - (float)(sz[i] - m.z - m.cz) * m.sin(m.xz));
             int i2 = m.cz + (int)((float)(sx[i] - m.x - m.cx) * m.sin(m.xz) + (float)(sz[i] - m.z - m.cz) * m.cos(m.xz));
@@ -42,17 +117,21 @@ public class ContO
             int k2 = (int)Math.sqrt((m.cy - j2) * (m.cy - j2) + (m.cx - l1) * (m.cx - l1) + i2 * i2);
             int l2 = 0;
             do
+            {
                 if(k2 > m.fade[l2])
                 {
                     l = (l * m.fogd + m.cfade[0]) / (m.fogd + 1);
                     i1 = (i1 * m.fogd + m.cfade[1]) / (m.fogd + 1);
                     j1 = (j1 * m.fogd + m.cfade[2]) / (m.fogd + 1);
                 }
-            while(++l2 < 8);
+            } while(++l2 < 8);
             if(Math.abs(scx[i]) + Math.abs(scz[i]) > 150)
+            {
                 sy[i] -= 3F + 27F * smag[i];
-            else
+            } else
+            {
                 sy[i] -= 23F + 7F * smag[i];
+            }
             sx[i] += (float)scx[i] / ((float)(stg[i] + 1) * smag[i]);
             sz[i] += (float)scz[i] / ((float)(stg[i] + 1) * smag[i]);
             int ai[] = new int[8];
@@ -61,7 +140,9 @@ public class ContO
             ai[0] = xs((int)((float)l1 - (18F + m.random() * 18F + (float)(i3 * 6)) * smag[i]), i2);
             ai1[0] = ys((int)((double)j2 - (7.5D + (double)m.random() * 7.5D + (double)i3 * 2.5D) * (double)smag[i]), i2);
             if(ai1[0] < 45 && m.flex != 0)
+            {
                 m.flex = 0;
+            }
             ai[1] = xs((int)((float)l1 - (18F + m.random() * 18F + (float)(i3 * 6)) * smag[i]), i2);
             ai1[1] = ys((int)((double)j2 + (7.5D + (double)m.random() * 7.5D + (double)i3 * 2.5D) * (double)smag[i]), i2);
             ai[2] = xs((int)((double)l1 - (7.5D + (double)m.random() * 7.5D + (double)i3 * 2.5D) * (double)smag[i]), i2);
@@ -85,25 +166,39 @@ public class ContO
             do
             {
                 if(ai1[j4] < 0 || i2 < 10)
+                {
                     j3++;
+                }
                 if(ai1[j4] > m.h || i2 < 10)
+                {
                     k3++;
+                }
                 if(ai[j4] < 0 || i2 < 10)
+                {
                     l3++;
+                }
                 if(ai[j4] > m.w || i2 < 10)
+                {
                     i4++;
+                }
                 if(ai1[j4] < 45 && m.flex != 0)
+                {
                     m.flex = 0;
+                }
             } while(++j4 < 8);
             if(l3 == 4 || j3 == 4 || k3 == 4 || i4 == 4)
+            {
                 flag = false;
+            }
             if(flag)
             {
                 g.setColor(new Color(l, i1, j1));
                 g.fillPolygon(ai, ai1, 8);
             }
             if(dov[i] == 1)
+            {
                 dov[i] = -1;
+            }
             if(stg[i] == 4)
             {
                 stg[i] = 0;
@@ -111,13 +206,16 @@ public class ContO
             {
                 stg[i]++;
                 if(stg[i] == 2 && fulls[i])
+                {
                     dov[i] = 0;
+                }
             }
         } else
         if(dov[i] == 0)
+        {
             dov[i] = 1;
+        }
     }
-
     public void sprk(float f, float f1, float f2, float f3, float f4, float f5, int i)
     {
         if(i != 1)
@@ -277,7 +375,9 @@ public class ContO
     public int ys(int i, int j)
     {
         if(j < 50)
+        {
             j = 50;
+        }
         return ((j - m.focus_point) * (m.cy - i)) / j + i;
     }
 
@@ -331,9 +431,6 @@ public class ContO
         int i = 0;
         float f = 1.0F;
         float f1 = 1.0F;
-        float af[] = {
-            1.0F, 1.0F, 1.0F
-        };
         int ai[] = new int[100];
         int ai1[] = new int[100];
         int ai2[] = new int[100];
@@ -350,12 +447,10 @@ public class ContO
         try
         {
             DataInputStream datainputstream = new DataInputStream(new ByteArrayInputStream(abyte0));
-            do
+            String s;
+            while((s = datainputstream.readLine()) != null) 
             {
-                String s;
-                if((s = datainputstream.readLine()) == null)
-                    break;
-                s1 = (new StringBuilder()).append("").append(s.trim()).toString();
+                s1 = "" + s.trim();
                 if(s1.startsWith("<p>"))
                 {
                     flag = true;
@@ -385,12 +480,12 @@ public class ContO
                     if(s1.startsWith("lightB"))
                         byte0 = 2;
                     if(s1.startsWith("noOutline"))
-                        flag4 = true;
+                        flag4= true;
                     if(s1.startsWith("p"))
                     {
-                        ai[i] = (int)((float)getvalue("p", s1, 0) * f * f1 * af[0]);
-                        ai1[i] = (int)((float)getvalue("p", s1, 1) * f * af[1]);
-                        ai2[i] = (int)((float)getvalue("p", s1, 2) * f * af[2]);
+                        ai[i] = (int)((float)getvalue("p", s1, 0) * f * f1);
+                        ai1[i] = (int)((float)getvalue("p", s1, 1) * f);
+                        ai2[i] = (int)((float)getvalue("p", s1, 2) * f);
                         int j1 = (int)Math.sqrt(ai[i] * ai[i] + ai1[i] * ai1[i] + ai2[i] * ai2[i]);
                         if(j1 > maxR)
                             maxR = j1;
@@ -399,7 +494,7 @@ public class ContO
                 }
                 if(s1.startsWith("</p>"))
                 {
-                    p[npl] = new Plane(m, t, ai, ai2, ai1, i, ai3, flag2, k, l, 0, 0, 0, disline, 0, flag3, byte0, flag4);
+                    p[npl] = new Plane(m, t, ai, ai2, ai1, i, ai3, flag2, k, l, 0, 0, 0, disline, 0, flag3, byte0 , flag4);
                     npl++;
                     flag = false;
                 }
@@ -407,10 +502,10 @@ public class ContO
                     wheels.setrims(getvalue("rims", s1, 0), getvalue("rims", s1, 1), getvalue("rims", s1, 2), getvalue("rims", s1, 3), getvalue("rims", s1, 4));
                 if(s1.startsWith("w"))
                 {
-                    keyx[j] = (int)((float)getvalue("w", s1, 0) * f * af[0]);
-                    keyz[j] = (int)((float)getvalue("w", s1, 2) * f * af[2]);
+                    keyx[j] = (int)((float)getvalue("w", s1, 0) * f);
+                    keyz[j] = (int)((float)getvalue("w", s1, 2) * f);
                     j++;
-                    wheels.make(m, t, p, npl, (int)((float)getvalue("w", s1, 0) * f * f1 * af[0]), (int)((float)getvalue("w", s1, 1) * f * af[1]), (int)((float)getvalue("w", s1, 2) * f * af[2]), getvalue("w", s1, 3), (int)((float)getvalue("w", s1, 4) * f * f1), (int)((float)getvalue("w", s1, 5) * f), i1);
+                    wheels.make(m, t, p, npl, (int)((float)getvalue("w", s1, 0) * f * f1), (int)((float)getvalue("w", s1, 1) * f), (int)((float)getvalue("w", s1, 2) * f), getvalue("w", s1, 3), (int)((float)getvalue("w", s1, 4) * f * f1), (int)((float)getvalue("w", s1, 5) * f), i1);
                     npl += 15;
                 }
                 if(s1.startsWith("tracks"))
@@ -503,22 +598,16 @@ public class ContO
                     f = (float)getvalue("idiv", s1, 0) / 100F;
                 if(s1.startsWith("iwid"))
                     f1 = (float)getvalue("iwid", s1, 0) / 100F;
-                if(s1.startsWith("ScaleX"))
-                    af[0] = (float)getvalue("ScaleX", s1, 0) / 100F;
-                if(s1.startsWith("ScaleY"))
-                    af[1] = (float)getvalue("ScaleY", s1, 0) / 100F;
-                if(s1.startsWith("ScaleZ"))
-                    af[2] = (float)getvalue("ScaleZ", s1, 0) / 100F;
                 if(s1.startsWith("gwgr"))
                     i1 = getvalue("gwgr", s1, 0);
-            } while(true);
+            }
             datainputstream.close();
         }
         catch(Exception exception)
         {
-            System.out.println((new StringBuilder()).append("ContO Loading Error: ").append(exception).toString());
-            System.out.println((new StringBuilder()).append("At File: ").append(abyte0).append(".rad").toString());
-            System.out.println((new StringBuilder()).append("At Line: ").append(s1).toString());
+            System.out.println("ContO Loading Error: " + exception);
+            System.out.println("At File: " + abyte0 + ".rad");
+            System.out.println("At Line: " + s1);
             System.out.println("--------------------");
         }
         grat = wheels.ground;
@@ -649,23 +738,20 @@ public class ContO
         if(xs(i + maxR * 2, k) > 0 && xs(i - maxR * 2, k) < m.w && k > -maxR && (k < m.fade[disline] + maxR || m.trk) && (l > disp || m.trk))
         {
             if(shadow)
+            {
                 if(!m.crs)
                 {
                     if(k < 2000)
                     {
                         boolean flag = false;
-                        int l1 = t.nt - 1;
-                        do
+                        for(int l1 = t.nt - 1; l1 >= 0; l1--)
                         {
-                            if(l1 < 0)
-                                break;
-                            if(Math.abs(t.zy[l1]) != 90 && Math.abs(t.xy[l1]) != 90 && Math.abs(x - t.x[l1]) < t.radx[l1] + maxR && Math.abs(z - t.z[l1]) < t.radz[l1] + maxR)
-                            {
-                                flag = true;
-                                break;
-                            }
-                            l1--;
-                        } while(true);
+                            if(Math.abs(t.zy[l1]) == 90 || Math.abs(t.xy[l1]) == 90 || Math.abs(x - t.x[l1]) >= t.radx[l1] + maxR || Math.abs(z - t.z[l1]) >= t.radz[l1] + maxR)
+                                continue;
+                            flag = true;
+                            break;
+                        }
+
                         if(flag)
                         {
                             for(int i2 = 0; i2 < npl; i2++)
@@ -693,6 +779,7 @@ public class ContO
                         p[i1].s(g, x - m.x, y - m.y, z - m.z, xz, xy, zy, 2);
 
                 }
+            }
             int j1 = m.cy + (int)((float)(y - m.y - m.cy) * m.cos(m.zy) - (float)(j - m.cz) * m.sin(m.zy));
             if(ys(j1 + maxR, k) > 0 && ys(j1 - maxR, k) < m.h)
             {
@@ -706,9 +793,10 @@ public class ContO
                 int ai1[] = new int[npl];
                 int i3 = 0;
                 do
+                {
                     if(stg[i3] != 0)
                         pdust(i3, g, -1);
-                while(++i3 < 4);
+                } while(++i3 < 4);
                 for(int j3 = 0; j3 < npl; j3++)
                     ai[j3] = 0;
 
@@ -722,8 +810,7 @@ public class ContO
                                 ai[k3]++;
                             else
                                 ai[i4]++;
-                            continue;
-                        }
+                        } else
                         if(k3 > i4)
                             ai[k3]++;
                         else
@@ -736,11 +823,11 @@ public class ContO
                 for(int l3 = 0; l3 < npl; l3++)
                 {
                     if(p[ai1[l3]].glass)
-                        ((Graphics2D)g).setComposite(AlphaComposite.getInstance(3, 0.65F));
+                    	((Graphics2D)g).setComposite(AlphaComposite.getInstance(3, .65F));
                     p[ai1[l3]].d(g, x - m.x, y - m.y, z - m.z, xz, xy, zy, wxz, wzy, noline, l);
                     if(p[ai1[l3]].master != 0 && stg[p[ai1[l3]].master - 1] != 0)
                         pdust(p[ai1[l3]].master - 1, g, 1);
-                    ((Graphics2D)g).setComposite(AlphaComposite.getInstance(3, 1.0F));
+                    ((Graphics2D)g).setComposite(AlphaComposite.getInstance(3, 1F));
                 }
 
                 dist = (int)(Math.sqrt((int)Math.sqrt(((m.x + m.cx) - x) * ((m.x + m.cx) - x) + (m.z - z) * (m.z - z) + ((m.y + m.cy) - y) * ((m.y + m.cy) - y))) * (double)grounded);
@@ -750,12 +837,15 @@ public class ContO
         {
             int k1 = 0;
             do
+            {
                 if(stg[k1] != 0)
+                {
                     if(stg[k1] == 4)
                         stg[k1] = 0;
                     else
                         stg[k1]++;
-            while(++k1 < 4);
+                }
+            } while(++k1 < 4);
         }
     }
 
@@ -807,14 +897,14 @@ public class ContO
         String s3 = "";
         for(int j = s.length() + 1; j < s1.length(); j++)
         {
-            String s2 = (new StringBuilder()).append("").append(s1.charAt(j)).toString();
+            String s2 = "" + s1.charAt(j);
             if(s2.equals(",") || s2.equals(")"))
             {
                 k++;
                 j++;
             }
             if(k == i)
-                s3 = (new StringBuilder()).append(s3).append(s1.charAt(j)).toString();
+                s3 += s1.charAt(j);
         }
 
         return Integer.valueOf(s3).intValue();
@@ -834,7 +924,7 @@ public class ContO
         int ai2[] = new int[4];
         byte byte0 = 1;
         int j;
-        for(j = Math.abs(zy); j > 270; j -= 360);
+        for(j = Math.abs(zy); j > 270; j -= 360) { }
         j = Math.abs(j);
         if(j > 90)
             byte0 = -1;
@@ -854,35 +944,32 @@ public class ContO
         do
             ai1[j1] = m.ground;
         while(++j1 < 4);
-        int k1 = t.nt - 1;
-        do
+        for(int k1 = t.nt - 1; k1 >= 0; k1--)
         {
-            if(k1 < 0)
-                break;
             int l1 = 0;
             int j2 = 0;
             do
+            {
                 if(Math.abs(t.zy[k1]) != 90 && Math.abs(t.xy[k1]) != 90 && Math.abs(ai[j2] - (t.x[k1] - m.x)) < t.radx[k1] && Math.abs(ai2[j2] - (t.z[k1] - m.z)) < t.radz[k1])
                     l1++;
-            while(++j2 < 4);
-            if(l1 > 2)
+            } while(++j2 < 4);
+            if(l1 <= 2)
+                continue;
+            j2 = 0;
+            do
             {
-                j2 = 0;
-                do
-                {
-                    ai1[j2] = t.y[k1] - m.y;
-                    if(t.zy[k1] != 0)
-                        ai1[j2] += ((float)(ai2[j2] - (t.z[k1] - m.z - t.radz[k1])) * m.sin(t.zy[k1])) / m.sin(90 - t.zy[k1]) - ((float)t.radz[k1] * m.sin(t.zy[k1])) / m.sin(90 - t.zy[k1]);
-                    if(t.xy[k1] != 0)
-                        ai1[j2] += ((float)(ai[j2] - (t.x[k1] - m.x - t.radx[k1])) * m.sin(t.xy[k1])) / m.sin(90 - t.xy[k1]) - ((float)t.radx[k1] * m.sin(t.xy[k1])) / m.sin(90 - t.xy[k1]);
-                } while(++j2 < 4);
-                k = (int)((double)(float)t.c[k1][0] / 1.5D);
-                l = (int)((double)(float)t.c[k1][1] / 1.5D);
-                i1 = (int)((double)(float)t.c[k1][2] / 1.5D);
-                break;
-            }
-            k1--;
-        } while(true);
+                ai1[j2] = t.y[k1] - m.y;
+                if(t.zy[k1] != 0)
+                    ai1[j2] += ((float)(ai2[j2] - (t.z[k1] - m.z - t.radz[k1])) * m.sin(t.zy[k1])) / m.sin(90 - t.zy[k1]) - ((float)t.radz[k1] * m.sin(t.zy[k1])) / m.sin(90 - t.zy[k1]);
+                if(t.xy[k1] != 0)
+                    ai1[j2] += ((float)(ai[j2] - (t.x[k1] - m.x - t.radx[k1])) * m.sin(t.xy[k1])) / m.sin(90 - t.xy[k1]) - ((float)t.radx[k1] * m.sin(t.xy[k1])) / m.sin(90 - t.xy[k1]);
+            } while(++j2 < 4);
+            k = (int)((double)(float)t.c[k1][0] / 1.5D);
+            l = (int)((double)(float)t.c[k1][1] / 1.5D);
+            i1 = (int)((double)(float)t.c[k1][2] / 1.5D);
+            break;
+        }
+
         rot(ai, ai2, m.cx, m.cz, m.xz, 4);
         rot(ai1, ai2, m.cy, m.cz, m.zy, 4);
         boolean flag = true;
@@ -910,13 +997,14 @@ public class ContO
         {
             int k3 = 0;
             do
+            {
                 if(i > m.fade[k3])
                 {
                     k = (k * m.fogd + m.cfade[0]) / (m.fogd + 1);
                     l = (l * m.fogd + m.cfade[1]) / (m.fogd + 1);
                     i1 = (i1 * m.fogd + m.cfade[2]) / (m.fogd + 1);
                 }
-            while(++k3 < 8);
+            } while(++k3 < 8);
             g.setColor(new Color(k, l, i1));
             g.fillPolygon(ai, ai1, 4);
         }
@@ -1222,73 +1310,4 @@ public class ContO
     {
         return (i - j) * (i - j) + (k - l) * (k - l);
     }
-
-    Medium m;
-    Trackers t;
-    Plane p[];
-    int npl;
-    int x;
-    int y;
-    int z;
-    int xz;
-    int xy;
-    int zy;
-    int wxz;
-    int wzy;
-    int dist;
-    int maxR;
-    int disp;
-    int disline;
-    boolean shadow;
-    boolean noline;
-    float grounded;
-    int grat;
-    int rtg[];
-    boolean rbef[];
-    int keyx[];
-    int keyz[];
-    int rx[];
-    int ry[];
-    int rz[];
-    float vrx[];
-    float vry[];
-    float vrz[];
-    int txy[];
-    int tzy[];
-    int srx;
-    int sry;
-    int srz;
-    float rcx;
-    float rcy;
-    float rcz;
-    int tc[][];
-    int tradx[];
-    int tradz[];
-    int trady[];
-    int tx[];
-    int ty[];
-    int tz[];
-    int skd[];
-    int dam[];
-    boolean notwall[];
-    int tnt;
-    int sx[];
-    int sy[];
-    int sz[];
-    int stg[];
-    int sprk;
-    int sprkat;
-    int dov[];
-    float smag[];
-    int scx[];
-    int scz[];
-    boolean fulls[];
-    boolean elec;
-    boolean roted;
-    int edl[];
-    int edr[];
-    int elc[];
-    boolean fix;
-    int fcnt;
-    int checkpoint;
 }

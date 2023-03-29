@@ -2,6 +2,7 @@
  * Decompiled with CFR 0.150.
  */
 import java.awt.Color;
+import java.awt.Desktop;
 import java.awt.Dimension;
 import java.awt.Frame;
 import java.awt.Image;
@@ -9,7 +10,13 @@ import java.awt.Panel;
 import java.awt.Toolkit;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import java.net.InetSocketAddress;
+import java.net.Proxy;
+import java.net.ProxySelector;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.UIManager;
 
 public class RunApp
@@ -17,6 +24,38 @@ extends Panel {
     static Frame frame;
     static GameSparker applet;
     public static ArrayList<Image> icons;
+
+    public static void detectProxy() {
+        System.setProperty("java.net.useSystemProxies", "true");
+        System.out.println("Detecting proxies...");
+        List<Proxy> l = null;
+        try {
+            l = ProxySelector.getDefault().select(new URI("http://foo/bar"));
+        }
+        catch (URISyntaxException e) {
+            e.printStackTrace();
+        }
+        if (l != null) {
+            for (Proxy proxy : l) {
+                Proxy.Type type = proxy.type();
+                if (type == Proxy.Type.DIRECT) {
+                    System.out.println("No proxies were found");
+                    continue;
+                }
+                System.out.println("\ntype : " + (Object)((Object)type));
+                InetSocketAddress addr = (InetSocketAddress)proxy.address();
+                if (addr == null) {
+                    System.out.println("No Proxy");
+                } else {
+                    System.out.println("proxy hostname : " + addr.getHostName());
+                    System.setProperty("http.proxyHost", addr.getHostName());
+                    System.out.println("proxy port : " + addr.getPort());
+                    System.setProperty("http.proxyPort", Integer.toString(addr.getPort()));
+                }
+                System.out.println();
+            }
+        }
+    }
 
     public static ArrayList<Image> getIcons() {
         if (icons == null) {
@@ -30,14 +69,30 @@ extends Panel {
     }
 
     public static void main(String[] strings) {
-        System.runFinalizersOnExit((boolean)true);
-        System.out.println("Journeyjar");
+        //System.runFinalizersOnExit((boolean)true);
+        System.out.println("joureynjar");
+        RunApp.detectProxy();
         try {
             UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
         }
         catch (Exception ex) {
             System.out.println("Could not setup System Look&Feel: " + ex.toString());
         }
+        RunApp.startup();
+    }
+
+    public static void restart() {
+        applet.stop();
+        frame.removeAll();
+        try {
+            Thread.sleep(200L);
+        }
+        catch (Exception exception) {
+            // empty catch block
+        }
+        applet.destroy();
+        applet = null;
+        frame.dispose();
         RunApp.startup();
     }
 
@@ -78,6 +133,34 @@ extends Panel {
         applet.destroy();
         applet = null;
         System.exit(0);
+    }
+
+    public static String urlopen() {
+        String string = "explorer";
+        String string_25 = System.getProperty("os.name").toLowerCase();
+        if (string_25.indexOf("linux") != -1 || string_25.indexOf("unix") != -1 || string_25.equals("aix")) {
+            string = "xdg-open";
+        }
+        if (string_25.indexOf("mac") != -1) {
+            string = "open";
+        }
+        return string;
+    }
+
+    public static void openurl(String string) {
+        if (Desktop.isDesktopSupported()) {
+            try {
+                Desktop.getDesktop().browse(new URI(string));
+            }
+            catch (Exception exception) {}
+        } else {
+            try {
+                Runtime.getRuntime().exec("" + RunApp.urlopen() + " " + string + "");
+            }
+            catch (Exception exception) {
+                // empty catch block
+            }
+        }
     }
 
     public static String getString(String tag, String str, int id) {

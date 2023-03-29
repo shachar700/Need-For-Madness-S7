@@ -3724,196 +3724,255 @@ implements Runnable {
         this.pback = 0;
     }
 
-    public void carselect(Control control, ContO[] aconto, Madness madness) {
-        this.cars.play();
-        if (this.flatrstart == 6) {
-            this.rd.drawImage(this.carsbg, 0, 0, null);
-        } else if (this.flatrstart <= 1) {
-            this.drawSmokeCarsbg();
-        } else {
-            this.rd.setColor(new Color(255, 255, 255));
-            this.rd.fillRect(0, 0, 670, 400);
-            this.carsbginflex();
-            this.flatrstart = 6;
+    public void carselect(Control control, ContO aconto[], Madness madness)
+    {
+        cars.play();
+        if(flatrstart == 6)
+        {
+            rd.drawImage(carsbg, 0, 0, null);
+        } else
+        if(flatrstart <= 1)
+        {
+            drawSmokeCarsbg();
+        } else
+        {
+            rd.setColor(new Color(255, 255, 255));
+            rd.fillRect(0, 0, 670, 400);
+            carsbginflex();
+            flatrstart = 6;
         }
-        this.rd.drawImage(this.selectcar, 256, 12, null);
-        this.m.crs = true;
-        this.m.x = -335;
-        this.m.y = -500;
-        this.m.z = -50;
-        this.m.xz = 0;
-        this.m.zy = 10;
-        this.m.ground = 470;
-        aconto[this.sc[0]].d(this.rd);
-        if (this.flipo == 0) {
-            this.rd.setFont(new Font("SansSerif", 1, 13));
-            this.ftm = this.rd.getFontMetrics();
-            int byte0 = 0;
-            if (this.flatrstart < 6) {
+        rd.drawImage(selectcar, 256, 12, null);
+        m.crs = true;
+        m.x = -335;
+        m.y = -500;
+        m.z = -50;
+        m.xz = 0;
+        m.zy = 10;
+        m.ground = 470;
+        aconto[sc[0]].d(rd);
+        if(flipo == 0)
+        {
+            rd.setFont(new Font("SansSerif", 1, 13));
+            ftm = rd.getFontMetrics();
+            byte byte0 = 0;
+            if(flatrstart < 6)
+            {
                 byte0 = 2;
             }
-            if (this.aflk) {
-                this.drawcs(70 + byte0, this.names[this.sc[0]], 240, 240, 240, 3);
-                this.aflk = false;
-            } else {
-                this.drawcs(70, this.names[this.sc[0]], 176, 176, 176, 3);
-                this.aflk = true;
+            if(aflk)
+            {
+                drawcs(70 + byte0, names[sc[0]], 240, 240, 240, 3);
+                aflk = false;
+            } else
+            {
+                drawcs(70, names[sc[0]], 176, 176, 176, 3);
+                aflk = true;
             }
-            aconto[this.sc[0]].z = 950;
-            if (this.sc[0] == 13) {
-                aconto[this.sc[0]].z = 1000;
+            aconto[sc[0]].z = 950;
+            if(sc[0] == 13)
+            {
+                aconto[sc[0]].z = 1000;
             }
-            aconto[this.sc[0]].y = -34 - aconto[this.sc[0]].grat;
-            aconto[this.sc[0]].x = 0;
-            aconto[this.sc[0]].xz += 5;
-            aconto[this.sc[0]].zy = 0;
-            aconto[this.sc[0]].wzy -= 10;
-            if (aconto[this.sc[0]].wzy < -45) {
-                aconto[this.sc[0]].wzy += 45;
+            aconto[sc[0]].y = -34 - aconto[sc[0]].grat;
+            aconto[sc[0]].x = 0;
+            aconto[sc[0]].xz += 5;
+            aconto[sc[0]].zy = 0;
+            aconto[sc[0]].wzy -= 10;
+            if(aconto[sc[0]].wzy < -45)
+            {
+                aconto[sc[0]].wzy += 45;
             }
-            if (this.sc[0] != 0) {
-                this.rd.drawImage(this.back[this.pback], 30, 250, null);
+            if(sc[0] != 0)
+            {
+                rd.drawImage(back[pback], 30, 250, null);
             }
-            if (this.sc[0] != 15) {
-                this.rd.drawImage(this.next[this.pnext], 580, 250, null);
+            if(sc[0] != 15)
+            {
+                rd.drawImage(next[pnext], 580, 250, null);
             }
-            if ((this.sc[0] - 7) * 2 >= this.unlocked) {
-                if (this.gatey == 300) {
+            if((sc[0] - 7) * 2 >= unlocked)
+            {
+                if(gatey == 300)
+                {
                     int i = 0;
-                    do {
-                        this.pgas[i] = false;
-                        this.pgady[i] = 0;
-                    } while (++i < 9);
-                    this.pgas[0] = true;
+                    do
+                    {
+                        pgas[i] = false;
+                        pgady[i] = 0;
+                    } while(++i < 9);
+                    pgas[0] = true;
                 }
                 int j = 0;
-                do {
-                    this.rd.drawImage(this.pgate, this.pgatx[j], this.pgaty[j] + this.pgady[j] - this.gatey, null);
-                    if (this.flatrstart != 6) continue;
-                    if (this.pgas[j]) {
-                        int n = j;
-                        this.pgady[n] = this.pgady[n] - (80 + 100 / (j + 1) - Math.abs(this.pgady[j])) / 3;
-                        if (this.pgady[j] >= -(70 + 100 / (j + 1))) continue;
-                        this.pgas[j] = false;
-                        if (j == 8) continue;
-                        this.pgas[j + 1] = true;
-                        continue;
+                do
+                {
+                    rd.drawImage(pgate, pgatx[j], (pgaty[j] + pgady[j]) - gatey, null);
+                    if(flatrstart == 6)
+                    {
+                        if(pgas[j])
+                        {
+                            pgady[j] -= ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
+                            if(pgady[j] < -(70 + 100 / (j + 1)))
+                            {
+                                pgas[j] = false;
+                                if(j != 8)
+                                {
+                                    pgas[j + 1] = true;
+                                }
+                            }
+                        } else
+                        {
+                            pgady[j] += ((80 + 100 / (j + 1)) - Math.abs(pgady[j])) / 3;
+                            if(pgady[j] > 0)
+                            {
+                                pgady[j] = 0;
+                            }
+                        }
                     }
-                    int n = j;
-                    this.pgady[n] = this.pgady[n] + (80 + 100 / (j + 1) - Math.abs(this.pgady[j])) / 3;
-                    if (this.pgady[j] <= 0) continue;
-                    this.pgady[j] = 0;
-                } while (++j < 9);
-                if (this.gatey != 0) {
-                    this.gatey -= 100;
+                } while(++j < 9);
+                if(gatey != 0)
+                {
+                    gatey -= 100;
                 }
-                if (this.flatrstart == 6) {
-                    this.drawcs(335, "[ Car Locked ]", 210, 210, 210, 3);
-                    this.drawcs(355, "This car unlocks when stage " + (this.sc[0] - 7) * 2 + " is completed...", 181, 120, 40, 3);
+                if(flatrstart == 6)
+                {
+                    drawcs(335, "[ Car Locked ]", 210, 210, 210, 3);
+                    drawcs(355, "This car unlocks when stage " + (sc[0] - 7) * 2 + " is completed...", 181, 120, 40, 3);
                 }
-            } else {
-                if (this.flatrstart == 6) {
-                    this.rd.setFont(new Font("SansSerif", 1, 11));
-                    this.ftm = this.rd.getFontMetrics();
-                    this.rd.setColor(new Color(181, 120, 40));
-                    this.rd.drawString("Top Speed:", 33, 318);
-                    this.rd.drawImage(this.statb, 97, 312, null);
-                    this.rd.drawString("Acceleration:", 23, 333);
-                    this.rd.drawImage(this.statb, 97, 327, null);
-                    this.rd.drawString("Handling:", 45, 348);
-                    this.rd.drawImage(this.statb, 97, 342, null);
-                    this.rd.drawString("Stunts:", 430, 318);
-                    this.rd.drawImage(this.statb, 471, 312, null);
-                    this.rd.drawString("Strength:", 418, 333);
-                    this.rd.drawImage(this.statb, 471, 327, null);
-                    this.rd.drawString("Endurance:", 408, 348);
-                    this.rd.drawImage(this.statb, 471, 342, null);
-                    this.rd.setColor(new Color(0, 0, 0));
-                    float f = (float)(madness.swits[this.sc[0]][2] - 220) / 90.0f;
-                    if ((double)f < 0.2) {
-                        f = 0.2f;
+            } else
+            {
+                if(flatrstart == 6)
+                {
+                    rd.setFont(new Font("SansSerif", 1, 11));
+                    ftm = rd.getFontMetrics();
+                    rd.setColor(new Color(181, 120, 40));
+                    rd.drawString("Top Speed:", 33, 318);
+                    rd.drawImage(statb, 97, 312, null);
+                    rd.drawString("Acceleration:", 23, 333);
+                    rd.drawImage(statb, 97, 327, null);
+                    rd.drawString("Handling:", 45, 348);
+                    rd.drawImage(statb, 97, 342, null);
+                    rd.drawString("Stunts:", 430, 318);
+                    rd.drawImage(statb, 471, 312, null);
+                    rd.drawString("Strength:", 418, 333);
+                    rd.drawImage(statb, 471, 327, null);
+                    rd.drawString("Endurance:", 408, 348);
+                    rd.drawImage(statb, 471, 342, null);
+                    rd.setColor(new Color(0, 0, 0));
+                    float f = (float)(madness.swits[sc[0]][2] - 220) / 90F;
+                    if((double)f < 0.20000000000000001D)
+                    {
+                        f = 0.2F;
                     }
-                    this.rd.fillRect((int)(97.0f + 156.0f * f), 312, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    f = madness.acelf[this.sc[0]][1] * madness.acelf[this.sc[0]][0] * madness.acelf[this.sc[0]][2] * madness.grip[this.sc[0]] / 7700.0f;
-                    if (f > 1.0f) {
-                        f = 1.0f;
+                    rd.fillRect((int)(97F + 156F * f), 312, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    f = (madness.acelf[sc[0]][1] * madness.acelf[sc[0]][0] * madness.acelf[sc[0]][2] * madness.grip[sc[0]]) / 7700F;
+                    if(f > 1.0F)
+                    {
+                        f = 1.0F;
                     }
-                    this.rd.fillRect((int)(97.0f + 156.0f * f), 327, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    f = this.dishandle[this.sc[0]];
-                    this.rd.fillRect((int)(97.0f + 156.0f * f), 342, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    f = ((float)madness.airc[this.sc[0]] * madness.airs[this.sc[0]] * madness.bounce[this.sc[0]] + 28.0f) / 139.0f;
-                    if (f > 1.0f) {
-                        f = 1.0f;
+                    rd.fillRect((int)(97F + 156F * f), 327, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    f = dishandle[sc[0]];
+                    rd.fillRect((int)(97F + 156F * f), 342, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    f = ((float)madness.airc[sc[0]] * madness.airs[sc[0]] * madness.bounce[sc[0]] + 28F) / 139F;
+                    if(f > 1.0F)
+                    {
+                        f = 1.0F;
                     }
-                    this.rd.fillRect((int)(471.0f + 156.0f * f), 312, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    float f1 = 0.5f;
-                    if (this.sc[0] == 9) {
-                        f1 = 0.8f;
+                    rd.fillRect((int)(471F + 156F * f), 312, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    float f1 = 0.5F;
+                    if(sc[0] == 9)
+                    {
+                        f1 = 0.8F;
                     }
-                    if ((f = (madness.moment[this.sc[0]] + f1) / 2.6f) > 1.0f) {
-                        f = 1.0f;
+                    f = (madness.moment[sc[0]] + f1) / 2.6F;
+                    if(f > 1.0F)
+                    {
+                        f = 1.0F;
                     }
-                    this.rd.fillRect((int)(471.0f + 156.0f * f), 327, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    f = this.outdam[this.sc[0]];
-                    this.rd.fillRect((int)(471.0f + 156.0f * f), 342, (int)(156.0f * (1.0f - f) + 1.0f), 7);
-                    this.rd.drawImage(this.statbo, 97, 312, null);
-                    this.rd.drawImage(this.statbo, 97, 327, null);
-                    this.rd.drawImage(this.statbo, 97, 342, null);
-                    this.rd.drawImage(this.statbo, 471, 312, null);
-                    this.rd.drawImage(this.statbo, 471, 327, null);
-                    this.rd.drawImage(this.statbo, 471, 342, null);
+                    rd.fillRect((int)(471F + 156F * f), 327, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    f = outdam[sc[0]];
+                    rd.fillRect((int)(471F + 156F * f), 342, (int)(156F * (1.0F - f) + 1.0F), 7);
+                    rd.drawImage(statbo, 97, 312, null);
+                    rd.drawImage(statbo, 97, 327, null);
+                    rd.drawImage(statbo, 97, 342, null);
+                    rd.drawImage(statbo, 471, 312, null);
+                    rd.drawImage(statbo, 471, 327, null);
+                    rd.drawImage(statbo, 471, 342, null);
                 }
-                this.rd.drawImage(this.contin[this.pcontin], 290, 360, null);
+                rd.drawImage(contin[pcontin], 290, 360, null);
             }
-        } else {
-            this.pback = 0;
-            this.pnext = 0;
-            this.gatey = 300;
-            if (this.flipo > 10) {
-                aconto[this.sc[0]].y -= 100;
-                aconto[this.sc[0]].zy = this.nextc ? (aconto[this.sc[0]].zy += 20) : (aconto[this.sc[0]].zy -= 20);
-            } else {
-                if (this.flipo == 10) {
-                    this.sc[0] = this.nextc ? this.sc[0] + 1 : this.sc[0] - 1;
-                    aconto[this.sc[0]].z = 950;
-                    aconto[this.sc[0]].y = -34 - aconto[this.sc[0]].grat - 1100;
-                    aconto[this.sc[0]].x = 0;
-                    aconto[this.sc[0]].zy = 0;
+        } else
+        {
+            pback = 0;
+            pnext = 0;
+            gatey = 300;
+            if(flipo > 10)
+            {
+                aconto[sc[0]].y -= 100;
+                if(nextc)
+                {
+                    aconto[sc[0]].zy += 20;
+                } else
+                {
+                    aconto[sc[0]].zy -= 20;
                 }
-                aconto[this.sc[0]].y += 100;
+            } else
+            {
+                if(flipo == 10)
+                {
+                    if(nextc)
+                    {
+                        sc[0]++;
+                    } else
+                    {
+                        sc[0]--;
+                    }
+                    aconto[sc[0]].z = 950;
+                    aconto[sc[0]].y = -34 - aconto[sc[0]].grat - 1100;
+                    aconto[sc[0]].x = 0;
+                    aconto[sc[0]].zy = 0;
+                }
+                aconto[sc[0]].y += 100;
             }
-            --this.flipo;
+            flipo--;
         }
-        this.rd.setFont(new Font("SansSerif", 1, 11));
-        this.ftm = this.rd.getFontMetrics();
-        this.drawcs(396, "You can also use Keyboard Arrows and Enter to navigate.", 82, 90, 0, 3);
-        if (control.right) {
+        rd.setFont(new Font("SansSerif", 1, 11));
+        ftm = rd.getFontMetrics();
+        drawcs(396, "You can also use Keyboard Arrows and Enter to navigate.", 82, 90, 0, 3);
+        if(control.right)
+        {
             control.right = false;
-            if (this.sc[0] != 15 && this.flipo == 0) {
-                if (this.flatrstart > 1) {
-                    this.flatrstart = 0;
+            if(sc[0] != 15 && flipo == 0)
+            {
+                if(flatrstart > 1)
+                {
+                    flatrstart = 0;
                 }
-                this.nextc = true;
-                this.flipo = 20;
+                nextc = true;
+                flipo = 20;
             }
         }
-        if (control.left) {
+        if(control.left)
+        {
             control.left = false;
-            if (this.sc[0] != 0 && this.flipo == 0) {
-                if (this.flatrstart > 1) {
-                    this.flatrstart = 0;
+            if(sc[0] != 0 && flipo == 0)
+            {
+                if(flatrstart > 1)
+                {
+                    flatrstart = 0;
                 }
-                this.nextc = false;
-                this.flipo = 20;
+                nextc = false;
+                flipo = 20;
             }
         }
-        if (control.handb || control.enter) {
-            if (this.flipo == 0 && (this.sc[0] - 7) * 2 < this.unlocked) {
-                this.lastload = -11;
-                this.cars.stop();
-                this.cars.unloadMod();
-                this.m.crs = false;
-                this.fase = 2;
+        if(control.handb || control.enter)
+        {
+            if(flipo == 0 && (sc[0] - 7) * 2 < unlocked)
+            {
+                lastload = -11;
+                cars.stop();
+                cars.unloadMod();
+                m.crs = false;
+                fase = 2;
             }
             control.handb = false;
             control.enter = false;
