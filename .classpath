@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM1 Mirror Files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM1 S7 RR files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM2 Mighty Stories files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM2 S7 v1 files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM2 S7 v2 files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2 Java Files/NFM2 S7 v3 files"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2/NFM1 Mirror/src"/>
+	<classpathentry kind="src" path="NFM S7 Pack 1.2/NFM1 S7 - Retro Reverence/src"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM1 Mirror/dist/nfm1.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM1 Mirror/nfm1.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM1 S7 - Retro Reverence/dist/nfm1.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM1 S7 - Retro Reverence/nfms7rr.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM2 Mighty Stories v1/mighty_stories.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM2 S7 v1 - Your Journey On S7/journeyjar.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM2 S7 v2 - S7 Edition/editionjar.jar"/>
+	<classpathentry kind="lib" path="NFM S7 Pack 1.2/NFM2 S7 v3 - New Dawn/Dawnjar.jar"/>
+	<classpathentry kind="output" path="NFM S7 Pack 1.2/NFM1 Mirror/build/classes"/>
+</classpath>

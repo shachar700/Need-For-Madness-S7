@@ -69,7 +69,7 @@ extends Panel {
     }
 
     public static void main(String[] strings) {
-        System.runFinalizersOnExit((boolean)true);
+        //System.runFinalizersOnExit((boolean)true);
         System.out.println("Editionjar");
         RunApp.detectProxy();
         try {

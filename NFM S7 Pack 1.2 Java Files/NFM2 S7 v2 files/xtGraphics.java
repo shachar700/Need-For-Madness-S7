@@ -4267,7 +4267,7 @@ implements Runnable {
         }
         rd = g;
         MediaTracker mediatracker = new MediaTracker(app);
-        hello = Toolkit.getDefaultToolkit().getImage(xtGraphics.class.getResource("hello.gif"));
+        this.hello = Toolkit.getDefaultToolkit().getImage(xtGraphics.class.getResource("hello.gif"));
         mediatracker.addImage(hello, 0);
         try {
             mediatracker.waitForID(0);

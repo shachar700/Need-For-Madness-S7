@@ -1,7 +1,9 @@
-/*
- * Decompiled with CFR 0.150.
+/* ModTrackInfo - Decompiled by JODE
+ * Visit http://jode.sourceforge.net/
  */
-class ModTrackInfo {
+
+class ModTrackInfo
+{
     byte[] samples;
     int position;
     int length;
@@ -19,7 +21,7 @@ class ModTrackInfo {
     int vibpos;
     int trempos;
     int oldsampofs;
-    int[] arp = new int[3];
+    int[] arp;
     int arpindex;
     int oldperiod = 1;
     int vol_slide;
@@ -34,8 +36,8 @@ class ModTrackInfo {
     int finetune_rate;
     int period_low_limit;
     int period_high_limit;
-
+    
     ModTrackInfo() {
+        ((ModTrackInfo) this).arp = new int[3];
     }
 }
-

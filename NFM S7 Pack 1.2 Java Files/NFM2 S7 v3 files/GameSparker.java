@@ -22,8 +22,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import netscape.javascript.JSException;
-import netscape.javascript.JSObject;
+//import netscape.javascript.JSException;
+//import netscape.javascript.JSObject;
 
 public class GameSparker
 extends Applet
@@ -184,53 +184,71 @@ implements Runnable {
         graphics.drawImage(this.offImage, 0, 0, this);
     }
 
-    public void loadbase(ContO[] contos, Medium medium, Trackers trackers, xtGraphics var_xtGraphics) {
-        String[] strings = new String[]{"2000tornados", "formula7", "canyenaro", "lescrab", "nimi", "maxrevenge", "leadoxide", "koolkat", "drifter", "policecops", "mustang", "king", "audir8", "masheen", "radicalone", "drmonster", "newcar", "newcar2", "newcar3", "newcar4", "road", "froad", "twister2", "twister1", "turn", "offroad", "bumproad", "offturn", "nroad", "nturn", "roblend", "noblend", "rnblend", "roadend", "offroadend", "hpground", "ramp30", "cramp35", "dramp15", "dhilo15", "slide10", "takeoff", "sramp22", "offbump", "offramp", "sofframp", "halfpipe", "spikes", "rail", "thewall", "checkpoint", "fixpoint", "offcheckpoint", "sideoff", "bsideoff", "uprise", "riseroad", "sroad", "soffroad", "speedramp"};
+    public void loadbase(ContO contos[], Medium medium, Trackers trackers, xtGraphics var_xtGraphics)
+    {
+        String strings[] = {
+            "2000tornados", "formula7", "canyenaro", "lescrab", "nimi", "maxrevenge", "leadoxide", "koolkat", "drifter", "policecops", 
+            "mustang", "king", "audir8", "masheen", "radicalone", "drmonster", "newcar", "newcar2", "newcar3", "newcar4", 
+            "road", "froad", "twister2", "twister1", "turn", "offroad", "bumproad", "offturn", "nroad", "nturn", 
+            "roblend", "noblend", "rnblend", "roadend", "offroadend", "hpground", "ramp30", "cramp35", "dramp15", "dhilo15", 
+            "slide10", "takeoff", "sramp22", "offbump", "offramp", "sofframp", "halfpipe", "spikes", "rail", "thewall", 
+            "checkpoint", "fixpoint", "offcheckpoint", "sideoff", "bsideoff", "uprise", "riseroad", "sroad", "soffroad", "speedramp"
+        };
         var_xtGraphics.dnload += 6;
-        try {
-            ZipInputStream zipinputstream;
-            URL url = new URL(this.getCodeBase(), "Files/models.radq");
+        try
+        {
+            URL url = new URL(getCodeBase(), "Files/models.radq");
             int i35 = url.openConnection().getContentLength();
             DataInputStream datainputstream = new DataInputStream(url.openStream());
-            byte[] arrayOfByte1 = new byte[i35];
+            byte arrayOfByte1[] = new byte[i35];
             datainputstream.readFully(arrayOfByte1);
-            if (arrayOfByte1[0] == 80 && arrayOfByte1[1] == 75 && arrayOfByte1[2] == 3) {
+            ZipInputStream zipinputstream;
+            if(arrayOfByte1[0] == 80 && arrayOfByte1[1] == 75 && arrayOfByte1[2] == 3)
+            {
                 zipinputstream = new ZipInputStream(new ByteArrayInputStream(arrayOfByte1));
-            } else {
-                for (int i40 = 0; i40 < i35; ++i40) {
-                    if (arrayOfByte1[i40] == 75) {
+            } else
+            {
+                for(int i40 = 0; i40 < i35; i40++)
+                {
+                    if(arrayOfByte1[i40] == 75)
+                    {
                         arrayOfByte1[i40] = 85;
                         continue;
                     }
-                    if (arrayOfByte1[i40] != 85) continue;
-                    arrayOfByte1[i40] = 75;
+                    if(arrayOfByte1[i40] == 85)
+                        arrayOfByte1[i40] = 75;
                 }
+
                 zipinputstream = new ZipInputStream(new ByteArrayInputStream(arrayOfByte1));
             }
-            ZipEntry zipentry = zipinputstream.getNextEntry();
-            while (zipentry != null) {
-                int i_12_;
+            for(ZipEntry zipentry = zipinputstream.getNextEntry(); zipentry != null; zipentry = zipinputstream.getNextEntry())
+            {
                 int i = 0;
                 int i_10_ = 0;
-                do {
-                    if (!zipentry.getName().startsWith(strings[i_10_])) continue;
-                    i = i_10_;
-                } while (++i_10_ < 60);
-                byte[] is = new byte[i_10_];
+                do
+                    if(zipentry.getName().startsWith(strings[i_10_]))
+                        i = i_10_;
+                while(++i_10_ < 60);
+                i_10_ = (int)zipentry.getSize();
+                byte is[] = new byte[i_10_];
                 int i_11_ = 0;
-                for (i_10_ = (int)zipentry.getSize(); i_10_ > 0; i_10_ -= i_12_) {
+                int i_12_;
+                for(; i_10_ > 0; i_10_ -= i_12_)
+                {
                     i_12_ = zipinputstream.read(is, i_11_, i_10_);
                     i_11_ += i_12_;
                 }
+
                 contos[i] = new ContO(is, medium, trackers);
-                ++var_xtGraphics.dnload;
-                zipentry = zipinputstream.getNextEntry();
+                var_xtGraphics.dnload++;
             }
+
             datainputstream.close();
             zipinputstream.close();
         }
-        catch (Exception exception) {
-            System.out.println("Error Reading Models: " + exception);
+        catch(Exception exception)
+        {
+            System.out.println((new StringBuilder()).append("Error Reading Models: ").append(exception).toString());
         }
         System.gc();
     }

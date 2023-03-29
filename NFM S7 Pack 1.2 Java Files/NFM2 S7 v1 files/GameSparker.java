@@ -21,8 +21,8 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
-import netscape.javascript.JSException;
-import netscape.javascript.JSObject;
+//import netscape.javascript.JSException;
+//import netscape.javascript.JSObject;
 
 public class GameSparker
 extends Applet
@@ -150,33 +150,15 @@ implements Runnable {
         return Integer.valueOf(s3);
     }
 
-    public int readcookie(String string) {
+    public int readcookie(String s)
+    {
         int i = -1;
-        try {
-            JSObject jsobject = JSObject.getWindow(this);
-            jsobject.eval("scook=GetCookie('" + string + "');");
-            i = Integer.valueOf(String.valueOf(jsobject.getMember("scook")));
+        try
+        {
+            BufferedReader br = new BufferedReader(new FileReader(new File("cookies/" + s)));
+            i = Integer.parseInt(br.readLine());
         }
-        catch (NoClassDefFoundError | JSException localException) {
-            System.out.println("Not running in web browser (" + string + ")");
-            try {
-                BufferedReader saveFile = new BufferedReader(new FileReader(string + ".dat"));
-                String saveLine = saveFile.readLine();
-                saveFile.close();
-                return Integer.parseInt(saveLine);
-            }
-            catch (IOException ioexception) {
-                System.out.println(ioexception.toString());
-                System.out.println(string + ".dat probably doesn't exist");
-                return -1;
-            }
-        }
-        catch (Exception localException) {
-            System.out.println("No cookie found (" + string + ")");
-            localException.printStackTrace();
-            return -1;
-        }
-        System.out.println("Successfully loaded cookie " + string);
+        catch(Exception _ex) { }
         return i;
     }
 
@@ -1451,25 +1433,16 @@ implements Runnable {
         }
     }
 
-    public void savecookie(String filename, String num) {
-        try {
-            JSObject jsobject = JSObject.getWindow(this);
-            jsobject.eval("SetCookie('" + filename + "','" + num + "');");
+    public void savecookie(String s, String s1)
+    {
+        try
+        {
+            PrintWriter pw = new PrintWriter(new File("cookies/" + s));
+            pw.println(s1);
+            pw.flush();
+            pw.close();
         }
-        catch (NoClassDefFoundError | JSException localException) {
-            System.out.println("Not running in web browser (" + filename + ")");
-            try {
-                FileWriter saveFile = new FileWriter(filename + ".dat");
-                saveFile.write(num);
-                saveFile.write("\n");
-                saveFile.close();
-                System.out.println("Successfully saved game (" + filename + ")");
-            }
-            catch (IOException fileNoAccess) {
-                System.out.println("Could not access file " + filename);
-                fileNoAccess.printStackTrace();
-            }
-        }
+        catch(Exception _ex) { }
     }
 
     public void catchlink(int i) {
