@@ -1,8 +1,8 @@
-/*
- * Decompiled with CFR 0.150.
- */
-class ModTrackInfo {
-    byte[] samples;
+
+class ModTrackInfo
+{
+
+    byte samples[];
     int position;
     int length;
     int repeat;
@@ -19,9 +19,9 @@ class ModTrackInfo {
     int vibpos;
     int trempos;
     int oldsampofs;
-    int[] arp = new int[3];
+    int arp[];
     int arpindex;
-    int oldperiod = 1;
+    int oldperiod;
     int vol_slide;
     int port_inc;
     int port_up;
@@ -35,7 +35,9 @@ class ModTrackInfo {
     int period_low_limit;
     int period_high_limit;
 
-    ModTrackInfo() {
+    ModTrackInfo()
+    {
+        oldperiod = 1;
+        arp = new int[3];
     }
 }
-

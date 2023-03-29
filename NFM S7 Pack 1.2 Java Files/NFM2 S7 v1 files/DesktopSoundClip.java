@@ -1,125 +1,131 @@
-/*
- * Decompiled with CFR 0.150.
- */
 import java.applet.AudioClip;
 import java.io.ByteArrayInputStream;
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioInputStream;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Clip;
-import javax.sound.sampled.DataLine;
+import javax.sound.sampled.*;
 
-public class DesktopSoundClip
-implements AudioClip {
+/**
+ * An implementation of AudioClip, optimized for desktop apps.
+ * The Sun-provided AudioClip for Applets is a bit buggy.
+ * @author DragShot
+ */
+public class DesktopSoundClip implements AudioClip {
+
     Clip clip = null;
     AudioInputStream sound;
     boolean loaded = false;
     int lfrpo = -1;
     int cntcheck = 0;
+   
+    /**
+    * Creates an unloaded, empty SoundClip.
+    */
+    public DesktopSoundClip() {}
 
-    public DesktopSoundClip() {
-    }
-
+    /**
+    * Creates a SoundClip from an array of bytes.
+    * @param is An array of bytes with the audio file data.
+    */
     public DesktopSoundClip(byte[] is) {
         try {
             ByteArrayInputStream bytearrayinputstream = new ByteArrayInputStream(is);
-            this.sound = AudioSystem.getAudioInputStream(bytearrayinputstream);
-            this.sound.mark(is.length);
-            AudioFormat format = this.sound.getFormat();
+            sound = AudioSystem.getAudioInputStream(bytearrayinputstream);
+            sound.mark(is.length);
+            AudioFormat format = sound.getFormat();
+            //ULAW format is not directly supported, it needs to be wrapped.
             if (format.getEncoding() != AudioFormat.Encoding.PCM_SIGNED) {
-                format = new AudioFormat(AudioFormat.Encoding.PCM_SIGNED, format.getSampleRate(), format.getSampleSizeInBits() * 2, format.getChannels(), format.getFrameSize() * 2, format.getFrameRate(), true);
-                this.sound = AudioSystem.getAudioInputStream(format, this.sound);
-                this.sound.mark(is.length * 2);
+                format = new AudioFormat(
+                    AudioFormat.Encoding.PCM_SIGNED,
+                    format.getSampleRate(),
+                    format.getSampleSizeInBits()*2,
+                    format.getChannels(),
+                    format.getFrameSize()*2,
+                    format.getFrameRate(),
+                    true); // big endian
+                sound = AudioSystem.getAudioInputStream(format,sound);
+                sound.mark(is.length*2);
             }
             DataLine.Info info = new DataLine.Info(Clip.class, format);
-            this.clip = (Clip)AudioSystem.getLine(info);
-            this.loaded = true;
-        }
-        catch (Exception exception) {
-            System.out.println("Loading Clip error: " + exception);
-            this.loaded = false;
+            clip = (Clip) AudioSystem.getLine(info);
+            loaded = true;
+        } catch (Exception exception) {
+            System.out.println(new StringBuilder().append("Loading Clip error: ").append(exception).toString());
+            loaded = false;
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     @Override
     public void play() {
-        if (this.loaded) {
+        if (loaded) {
             try {
-                if (!this.clip.isOpen()) {
+                if (!clip.isOpen()) {
                     try {
-                        this.clip.open(this.sound);
-                    }
-                    catch (Exception exception) {
-                        // empty catch block
-                    }
-                    this.clip.loop(0);
+                        clip.open(sound);
+                    } catch (Exception exception) {}
+                    clip.loop(0);
                 } else {
-                    this.clip.loop(1);
+                    clip.loop(1);
                 }
-                this.lfrpo = -1;
-                this.cntcheck = 5;
-            }
-            catch (Exception exception) {
-                // empty catch block
-            }
+                lfrpo = -1;
+                cntcheck = 5;
+            } catch (Exception exception) {}
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     @Override
     public void loop() {
-        if (this.loaded) {
+        if (loaded) {
             try {
-                if (!this.clip.isOpen()) {
+                if (!clip.isOpen()) {
                     try {
-                        this.clip.open(this.sound);
-                    }
-                    catch (Exception exception) {
-                        // empty catch block
-                    }
+                        clip.open(sound);
+                    } catch (Exception exception) {}
                 }
-                this.clip.loop(70);
-                this.lfrpo = -2;
-                this.cntcheck = 0;
-            }
-            catch (Exception exception) {
-                // empty catch block
-            }
+                clip.loop(70);
+                lfrpo = -2;
+                cntcheck = 0;
+            } catch (Exception exception) {}
         }
     }
 
+    /**
+    * @inheritdoc
+    */
     @Override
     public void stop() {
-        if (this.loaded) {
+        if (loaded) {
             try {
-                this.clip.stop();
-                this.lfrpo = -1;
-            }
-            catch (Exception exception) {
-                // empty catch block
-            }
+                clip.stop();
+                lfrpo = -1;
+            } catch (Exception exception) {}
         }
     }
 
+    /**
+    * Checks the line state and closes it if it's not in use anymore. This
+    * helps to save memory and CPU resources in general, overall in cases where
+    * a lot of sounds are played.
+    */
     public void checkopen() {
-        if (this.loaded && this.clip.isOpen() && this.lfrpo != -2) {
-            if (this.cntcheck == 0) {
-                int i = this.clip.getFramePosition();
-                if (this.lfrpo == i && !this.clip.isRunning()) {
+        if (loaded && clip.isOpen() && lfrpo != -2) {
+            if (cntcheck == 0) {
+                int i = clip.getFramePosition();
+                if (lfrpo == i && !clip.isRunning()) {
                     try {
-                        this.clip.close();
-                        this.sound.reset();
-                    }
-                    catch (Exception exception) {
-                        // empty catch block
-                    }
-                    this.lfrpo = -1;
+                        clip.close();
+                        sound.reset();
+                    } catch (Exception exception) {}
+                    lfrpo = -1;
                 } else {
-                    this.lfrpo = i;
+                    lfrpo = i;
                 }
             } else {
-                --this.cntcheck;
+                cntcheck--;
             }
         }
     }
 }
-

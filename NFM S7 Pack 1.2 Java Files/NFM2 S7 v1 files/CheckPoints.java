@@ -1,130 +1,179 @@
-/*
- * Decompiled with CFR 0.150.
- */
-public class CheckPoints {
-    int[] x;
-    int[] z;
-    int[] y;
-    int[] typ;
-    int pcs = 0;
-    int nsp = 0;
-    int n = 0;
-    int[] fx;
-    int[] fz;
-    int[] fy;
-    boolean[] roted;
-    boolean[] special;
-    int fn = 0;
-    int stage = 1;
-    int nlaps = 0;
-    String name = "hogan rewish";
-    int[] pos = new int[]{6, 6, 6, 6, 6, 6, 6};
-    int[] clear;
-    int[] dested;
-    int wasted = 0;
-    boolean haltall = false;
-    int pcleared = 0;
-    int[] opx;
-    int[] opz;
-    int[] onscreen;
-    int[] omxz;
-    int catchfin = 0;
-    int postwo = 0;
 
-    public CheckPoints() {
-        this.x = new int[140];
-        this.z = new int[140];
-        this.y = new int[140];
-        this.typ = new int[140];
-        this.fx = new int[5];
-        this.fz = new int[5];
-        this.fy = new int[5];
-        this.roted = new boolean[5];
-        this.special = new boolean[5];
-        this.clear = new int[7];
-        this.dested = new int[7];
-        this.opx = new int[7];
-        this.opz = new int[7];
-        this.onscreen = new int[7];
-        this.omxz = new int[7];
+public class CheckPoints
+{
+
+    int x[];
+    int z[];
+    int y[];
+    int typ[];
+    int pcs;
+    int nsp;
+    int n;
+    int fx[];
+    int fz[];
+    int fy[];
+    boolean roted[];
+    boolean special[];
+    int fn;
+    int stage;
+    int nlaps;
+    String name;
+    int pos[] = {
+        6, 6, 6, 6, 6, 6, 6
+    };
+    int clear[];
+    int dested[];
+    int wasted;
+    boolean haltall;
+    int pcleared;
+    int opx[];
+    int opz[];
+    int onscreen[];
+    int omxz[];
+    int catchfin;
+    int postwo;
+
+    public CheckPoints()
+    {
+        x = new int[140];
+        z = new int[140];
+        y = new int[140];
+        typ = new int[140];
+        pcs = 0;
+        nsp = 0;
+        n = 0;
+        fx = new int[5];
+        fz = new int[5];
+        fy = new int[5];
+        roted = new boolean[5];
+        special = new boolean[5];
+        fn = 0;
+        stage = 1;
+        nlaps = 0;
+        name = "hogan rewish";
+        clear = new int[7];
+        dested = new int[7];
+        wasted = 0;
+        haltall = false;
+        pcleared = 0;
+        opx = new int[7];
+        opz = new int[7];
+        onscreen = new int[7];
+        omxz = new int[7];
+        catchfin = 0;
+        postwo = 0;
     }
 
-    public void checkstat(Madness[] amadness, ContO[] aconto, Record record) {
-        if (!this.haltall) {
-            this.pcleared = amadness[0].pcleared;
+    public void checkstat(Madness amadness[], ContO aconto[], Record record)
+    {
+        if(!haltall)
+        {
+            pcleared = amadness[0].pcleared;
             int i = 0;
-            do {
-                this.pos[i] = 0;
-                this.onscreen[i] = aconto[i].dist;
-                this.opx[i] = aconto[i].x;
-                this.opz[i] = aconto[i].z;
-                this.omxz[i] = amadness[i].mxz;
-                this.clear[i] = this.dested[i] == 0 ? amadness[i].clear : -1;
-            } while (++i < 7);
-            i = 0;
-            do {
-                for (int l = i + 1; l < 7; ++l) {
-                    if (this.clear[i] != this.clear[l]) {
-                        if (this.clear[i] < this.clear[l]) {
-                            int n = i;
-                            this.pos[n] = this.pos[n] + 1;
-                            continue;
-                        }
-                        int n = l;
-                        this.pos[n] = this.pos[n] + 1;
-                        continue;
-                    }
-                    int j1 = amadness[i].pcleared + 1;
-                    while (this.typ[j1] <= 0) {
-                        if (++j1 != this.n) continue;
-                        j1 = 0;
-                    }
-                    if (this.py(aconto[i].x / 100, this.x[j1] / 100, aconto[i].z / 100, this.z[j1] / 100) > this.py(aconto[l].x / 100, this.x[j1] / 100, aconto[l].z / 100, this.z[j1] / 100)) {
-                        int n = i;
-                        this.pos[n] = this.pos[n] + 1;
-                        continue;
-                    }
-                    int n = l;
-                    this.pos[n] = this.pos[n] + 1;
+            do
+            {
+                pos[i] = 0;
+                onscreen[i] = aconto[i].dist;
+                opx[i] = aconto[i].x;
+                opz[i] = aconto[i].z;
+                omxz[i] = amadness[i].mxz;
+                if(dested[i] == 0)
+                {
+                    clear[i] = amadness[i].clear;
+                } else
+                {
+                    clear[i] = -1;
                 }
-            } while (++i < 7);
-            if (this.stage > 2) {
-                int j = 0;
-                do {
-                    if (this.clear[j] != this.nlaps * this.nsp || this.pos[j] != 0) continue;
-                    if (j == 0) {
-                        int i1 = 0;
-                        do {
-                            if (this.pos[i1] != 1) continue;
-                            this.postwo = i1;
-                        } while (++i1 < 7);
-                        if (this.py(this.opx[0] / 100, this.opx[this.postwo] / 100, this.opz[0] / 100, this.opz[this.postwo] / 100) >= 14000 || this.clear[0] - this.clear[this.postwo] != 1) continue;
-                        this.catchfin = 30;
-                        continue;
+            } while(++i < 7);
+            i = 0;
+            do
+            {
+                for(int l = i + 1; l < 7; l++)
+                {
+                    if(clear[i] != clear[l])
+                    {
+                        if(clear[i] < clear[l])
+                        {
+                            pos[i]++;
+                        } else
+                        {
+                            pos[l]++;
+                        }
+                    } else
+                    {
+                        int j1;
+                        for(j1 = amadness[i].pcleared + 1; typ[j1] <= 0;)
+                        {
+                            if(++j1 == n)
+                            {
+                                j1 = 0;
+                            }
+                        }
+
+                        if(py(aconto[i].x / 100, x[j1] / 100, aconto[i].z / 100, z[j1] / 100) > py(aconto[l].x / 100, x[j1] / 100, aconto[l].z / 100, z[j1] / 100))
+                        {
+                            pos[i]++;
+                        } else
+                        {
+                            pos[l]++;
+                        }
                     }
-                    if (this.pos[0] != 1 || this.py(this.opx[0] / 100, this.opx[j] / 100, this.opz[0] / 100, this.opz[j] / 100) >= 14000 || this.clear[j] - this.clear[0] != 1) continue;
-                    this.catchfin = 30;
-                    this.postwo = j;
-                } while (++j < 7);
+                }
+
+            } while(++i < 7);
+            if(stage > 2)
+            {
+                int j = 0;
+                do
+                {
+                    if(clear[j] == nlaps * nsp && pos[j] == 0)
+                    {
+                        if(j == 0)
+                        {
+                            int i1 = 0;
+                            do
+                            {
+                                if(pos[i1] == 1)
+                                {
+                                    postwo = i1;
+                                }
+                            } while(++i1 < 7);
+                            if(py(opx[0] / 100, opx[postwo] / 100, opz[0] / 100, opz[postwo] / 100) < 14000 && clear[0] - clear[postwo] == 1)
+                            {
+                                catchfin = 30;
+                            }
+                        } else
+                        if(pos[0] == 1 && py(opx[0] / 100, opx[j] / 100, opz[0] / 100, opz[j] / 100) < 14000 && clear[j] - clear[0] == 1)
+                        {
+                            catchfin = 30;
+                            postwo = j;
+                        }
+                    }
+                } while(++j < 7);
             }
         }
-        this.wasted = 0;
+        wasted = 0;
         int k = 1;
-        do {
-            if (!amadness[k].dest) continue;
-            ++this.wasted;
-        } while (++k < 7);
-        if (this.catchfin != 0) {
-            --this.catchfin;
-            if (this.catchfin == 0) {
-                record.cotchinow(this.postwo);
-                record.closefinish = this.pos[0] + 1;
+        do
+        {
+            if(amadness[k].dest)
+            {
+                wasted++;
+            }
+        } while(++k < 7);
+        if(catchfin != 0)
+        {
+            catchfin--;
+            if(catchfin == 0)
+            {
+                record.cotchinow(postwo);
+                record.closefinish = pos[0] + 1;
             }
         }
     }
 
-    public int py(int i, int j, int k, int l) {
+    public int py(int i, int j, int k, int l)
+    {
         return (i - j) * (i - j) + (k - l) * (k - l);
     }
 }
-

@@ -1,9 +1,9 @@
-/*
- * Decompiled with CFR 0.150.
- */
-class ModInstrument {
+
+class ModInstrument
+{
+
     String name;
-    byte[] samples;
+    byte samples[];
     int sample_length;
     int finetune_rate;
     int period_low_limit;
@@ -13,7 +13,7 @@ class ModInstrument {
     int repeat_point;
     int repeat_length;
 
-    ModInstrument() {
+    ModInstrument()
+    {
     }
 }
-
