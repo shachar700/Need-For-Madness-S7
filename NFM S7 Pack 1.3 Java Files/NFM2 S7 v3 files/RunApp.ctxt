@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=RunApp()
+comment1.params=
+comment1.target=void\ detectProxy()
+comment10.params=tag\ str\ id
+comment10.target=java.lang.String\ getString(java.lang.String,\ java.lang.String,\ int)
+comment11.params=tag\ str\ id
+comment11.target=int\ getInt(java.lang.String,\ java.lang.String,\ int)
+comment2.params=
+comment2.target=java.util.ArrayList\ getIcons()
+comment3.params=strings
+comment3.target=void\ main(java.lang.String[])
+comment4.params=
+comment4.target=void\ restart()
+comment5.params=
+comment5.target=void\ startup()
+comment6.params=windowevent
+comment6.target=void\ windowClosing(java.awt.event.WindowEvent)
+comment7.params=
+comment7.target=void\ exitsequance()
+comment8.params=
+comment8.target=java.lang.String\ urlopen()
+comment9.params=string
+comment9.target=void\ openurl(java.lang.String)
+numComments=12
