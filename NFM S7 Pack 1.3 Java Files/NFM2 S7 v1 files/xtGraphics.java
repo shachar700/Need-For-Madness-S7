@@ -186,7 +186,7 @@ public class xtGraphics extends Panel
     int laps;
     int dested[];
     String names[] = {
-        "Turbo Shark", "Formula 3", "Wow Caninaro", "Dark Crab", "NiNimze", "MAX Revenge", "Mad Oxide", "Kool Kat", "Drifter Y", "Police Man", 
+        "Turbo Shark", "Formula 3", "Wow Caninaro", "Dark Crab", "MiNimize", "MAX Revenge", "Mad Oxide", "Kool Kat", "Drifter Y", "Police Man", 
         "High Rider", "The Lord", "Audi R Eight ", "M A S H E E N", "Thunder Storm", "DR Monstaa -KOD-"
     };
     int dmcnt;
