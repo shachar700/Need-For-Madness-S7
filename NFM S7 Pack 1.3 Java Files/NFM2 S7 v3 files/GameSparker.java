@@ -96,8 +96,6 @@ public class GameSparker extends Applet
 
     public void stop()
     {
-        if(getAppletContext() instanceof DesktopContext)
-            saveData();
         if(exwist && gamer != null)
         {
             System.gc();
@@ -164,15 +162,13 @@ public class GameSparker extends Applet
         return Integer.valueOf(string_7_).intValue();
     }
 
-    public int readcookie(String s)
-    {
+    public int readcookie(String s) {
         int i = -1;
-        try
-        {
-            BufferedReader br = new BufferedReader(new FileReader(new File("Files/cookies/" + s)));
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(new File("cookies/" + s)));
             i = Integer.parseInt(br.readLine());
+        } catch (Exception _ex) {
         }
-        catch(Exception _ex) { }
         return i;
     }
 
@@ -657,7 +653,7 @@ public class GameSparker extends Applet
         boolean bool = false;
         float f = 35F;
         int i_46_ = 80;
-        i_45_ = readcookie("Files/data/unlocked");
+        i_45_ = readcookie("unlocked");
         if(i_45_ >= 1 && i_45_ <= 25)
         {
             var_xtGraphics.unlocked = i_45_;
@@ -667,13 +663,13 @@ public class GameSparker extends Applet
                 checkpoints.stage = (int)(Math.random() * 17D) + 1;
             var_xtGraphics.opselect = 0;
         }
-        i_45_ = readcookie("Files/data/usercar");
+        i_45_ = readcookie("usercar");
         if(i_45_ >= 0 && i_45_ <= 16)
             var_xtGraphics.sc[0] = i_45_;
-        i_45_ = readcookie("Files/data/gameprfact");
+        i_45_ = readcookie("gameprfact");
         if(i_45_ != -1)
         {
-            f = readcookie("Files/data/gameprfact");
+            f = readcookie("gameprfact");
             i_46_ = 0;
         }
         bool = false;
@@ -779,12 +775,13 @@ public class GameSparker extends Applet
             if(var_xtGraphics.fase == -5)
             {
                 var_xtGraphics.finish(checkpoints, contos, u[0]);
-                if(bool)
+                if(bool == true)
                 {
-                    if(checkpoints.stage == var_xtGraphics.unlocked && var_xtGraphics.winner && var_xtGraphics.unlocked != 25)
-                        savecookie("Files/data/unlocked", (new StringBuilder()).append("").append(var_xtGraphics.unlocked + 1).toString());
-                    savecookie("Files/data/gameprfact", (new StringBuilder()).append("").append((int)f).toString());
-                    savecookie("Files/data/usercar", (new StringBuilder()).append("").append(var_xtGraphics.sc[0]).toString());
+                	if (checkpoints.stage == var_xtGraphics.unlocked && var_xtGraphics.winner && var_xtGraphics.unlocked != 25) {
+                        savecookie("unlocked", "" + (var_xtGraphics.unlocked + 1));
+                    }
+                    savecookie("gameprfact", "" + (int) f);
+                    savecookie("usercar", "" + var_xtGraphics.sc[0]);
                     bool = false;
                 }
                 var_xtGraphics.ctachm(xm, ym, mouses, u[0], checkpoints);
@@ -818,7 +815,7 @@ public class GameSparker extends Applet
                 var_xtGraphics.loadmusic(checkpoints.stage, i_46_);
                 if(!bool)
                 {
-                    savecookie("Files/data/usercar", (new StringBuilder()).append("").append(var_xtGraphics.sc[0]).toString());
+                	savecookie("usercar", "" + var_xtGraphics.sc[0]);
                     bool = true;
                 }
             }
@@ -1610,13 +1607,14 @@ public class GameSparker extends Applet
         offImage = createImage(800, 450);
         if(offImage != null)
             rd = (Graphics2D)offImage.getGraphics();
+        cookieDir();
     }
 
     public void savecookie(String s, String s1)
     {
         try
         {
-            PrintWriter pw = new PrintWriter(new File("Files/cookies/" + s));
+            PrintWriter pw = new PrintWriter(new File("cookies/" + s));
             pw.println(s1);
             pw.flush();
             pw.close();
@@ -1669,6 +1667,13 @@ public class GameSparker extends Applet
             ym = i_108_;
         }
         return false;
+    }
+    
+    public boolean cookieDir() {
+        File f = new File("cookies");
+        if (f.exists() && f.isDirectory())
+            return true;
+        return f.mkdir();
     }
 
     private void loadData()

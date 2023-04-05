@@ -27,7 +27,7 @@ import java.util.Set;
 public class GameSparker extends Applet
     implements Runnable
 {
-    HashMap<String,Integer> properties;
+    HashMap<String,String> properties;
 
     public boolean keyDown(Event event, int i)
     {
@@ -77,14 +77,15 @@ public class GameSparker extends Applet
     }
     
 
-    public void stop() {
-        if (this.exwist && this.gamer != null) {
+    public void stop()
+    {
+        if(exwist && gamer != null)
+        {
             System.gc();
-            this.gamer.stop();
-            this.gamer = null;
+            gamer.stop();
+            gamer = null;
         }
-        this.exwist = true;
-        if(getAppletContext() instanceof DesktopContext) saveData();
+        exwist = true;
     }
 
     public boolean lostFocus(Event event, Object obj)
@@ -144,15 +145,13 @@ public class GameSparker extends Applet
         return Integer.valueOf(s3).intValue();
     }
 
-    public int readcookie(String s)
-    {
+    public int readcookie(String s) {
         int i = -1;
-        try
-        {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(new File("cookies/" + s)));
             i = Integer.parseInt(br.readLine());
+        } catch (Exception _ex) {
         }
-        catch(Exception _ex) { }
         return i;
     }
 
@@ -589,24 +588,24 @@ public class GameSparker extends Applet
         l = 0;
         float f = 35F;
         int i1 = 80;
-        l = readcookie("data/unlocked");
+        l = readcookie("unlocked");
         if(l >= 1 && l <= 17)
         {
-            xtgraphics.unlocked = 17;
+            xtgraphics.unlocked = l;
             if(xtgraphics.unlocked != 17)
                 checkpoints.stage = xtgraphics.unlocked;
             else
                 checkpoints.stage = (int)(Math.random() * 17D) + 1;
             xtgraphics.opselect = 0;
         }
-        l = readcookie("data/usercar");
+        l = readcookie("usercar");
         if(l >= 0 && l <= 15)
             xtgraphics.sc[0] = l;
-        l = readcookie("data/gameprfact");
+        l = readcookie("gameprfact");
         if(l != -1)
         {
-            f = readcookie("data/gameprfact");
-            i1 = 1;
+            f = readcookie("gameprfact");
+            i1 = 0;
         }
         boolean flag = false;
         xtgraphics.stoploading();
@@ -707,11 +706,12 @@ public class GameSparker extends Applet
                 xtgraphics.finish(checkpoints, aconto, u[0]);
                 if(flag)
                 {
-                    if(checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 17)
-                        savecookie("data/unlocked", "" + (xtgraphics.unlocked + 1));
-                    savecookie("data/gameprfact", "" + (int)f);
-                    savecookie("data/usercar", "" + xtgraphics.sc[0]);
-                    flag = true;
+                    if(checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 17) {
+                    savecookie("unlocked", "" + (xtgraphics.unlocked + 1));
+                    }
+                    savecookie("gameprfact", "" + (int)f);
+                    savecookie("usercar", "" + xtgraphics.sc[0]);
+                    flag = false;
                 }
                 xtgraphics.ctachm(xm, ym, mouses, u[0]);
                 if(checkpoints.stage == 17 && xtgraphics.winner)
@@ -744,7 +744,7 @@ public class GameSparker extends Applet
                 xtgraphics.loadmusic(checkpoints.stage, i1);
                 if(!flag)
                 {
-                    savecookie("data/usercar", "" + xtgraphics.sc[0]);
+                    savecookie("usercar", "" + xtgraphics.sc[0]);
                     flag = true;
                 }
             }
@@ -1514,19 +1514,22 @@ public class GameSparker extends Applet
     }
 
     @Override
-    public void init()   {
-        if(getAppletContext() instanceof DesktopContext) loadData();
-        offImage = createImage(800, 450);
-        if(offImage != null){
+    public void init()
+    {
+        offImage = createImage(670, 400);
+        if(offImage != null)
+        {
             rd = (Graphics2D)offImage.getGraphics();
         }
+        cookieDir();
+        setFocusTraversalKeysEnabled(false);
     }
     
     public void savecookie(String s, String s1)
     {
         try
         {
-            PrintWriter pw = new PrintWriter(new File("Files/cookies/" + s));
+            PrintWriter pw = new PrintWriter(new File("cookies/" + s));
             pw.println(s1);
             pw.flush();
             pw.close();
@@ -1595,6 +1598,13 @@ public class GameSparker extends Applet
     int notb;
     int view;
     
+    public boolean cookieDir() {
+        File f = new File("cookies");
+        if (f.exists() && f.isDirectory())
+            return true;
+        return f.mkdir();
+    }
+
     private void loadData(){
         try{
             properties=new HashMap();
@@ -1605,7 +1615,7 @@ public class GameSparker extends Applet
                 while((str=in.readLine())!=null){
                     key=str.substring(0,str.indexOf("("));
                     value=getstring(key, str, 0);
-                    properties.put(key, Integer.parseInt(value));
+                    properties.put(key, value);
                 }
                 in.close();
             }
@@ -1614,16 +1624,16 @@ public class GameSparker extends Applet
             System.out.println("Error while loading user data: "+ex.toString());
         }
     }
-    
+   
     private void saveData(){
         try{
             File localFile=new File("data/user.data");
             if(!localFile.exists())
                 localFile.createNewFile();
             PrintWriter out=new PrintWriter(localFile);
-            Iterator<Map.Entry<String, Integer>> iterator = properties.entrySet().iterator();
+            Iterator<Map.Entry<String, String>> iterator = properties.entrySet().iterator();
             while(iterator.hasNext()){
-                Map.Entry<String, Integer> entry=iterator.next();
+                Map.Entry<String, String> entry=iterator.next();
                 out.println(entry.getKey()+"("+entry.getValue()+")");
             }
             out.close();

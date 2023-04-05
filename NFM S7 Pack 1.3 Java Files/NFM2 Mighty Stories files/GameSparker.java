@@ -586,7 +586,7 @@ public class GameSparker extends Applet
         l = readcookie("unlocked");
         if(l >= 1 && l <= 17)
         {
-            xtgraphics.unlocked = 17;
+            xtgraphics.unlocked = l;
             if(xtgraphics.unlocked != 17)
                 checkpoints.stage = xtgraphics.unlocked;
             else
@@ -600,7 +600,7 @@ public class GameSparker extends Applet
         if(l != -1)
         {
             f = readcookie("gameprfact");
-            i1 = 1;
+            i1 = 0;
         }
         boolean flag = false;
         xtgraphics.stoploading();
@@ -701,11 +701,12 @@ public class GameSparker extends Applet
                 xtgraphics.finish(checkpoints, aconto, u[0]);
                 if(flag)
                 {
-                    if(checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 17)
+                    if(checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 17) {
                         savecookie("unlocked", "" + (xtgraphics.unlocked + 1));
+                    }
                     savecookie("gameprfact", "" + (int)f);
                     savecookie("usercar", "" + xtgraphics.sc[0]);
-                    flag = true;
+                    flag = false;
                 }
                 xtgraphics.ctachm(xm, ym, mouses, u[0]);
                 if(checkpoints.stage == 17 && xtgraphics.winner)

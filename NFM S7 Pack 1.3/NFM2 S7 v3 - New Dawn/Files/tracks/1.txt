@@ -9,7 +9,7 @@ fadefrom(7500)
 density(2)
 
 name(Riding with Lunatics)
-nlaps(2)
+nlaps(1)
 
 set(48,0,0,0)p
 chk(40,0,4600,0)

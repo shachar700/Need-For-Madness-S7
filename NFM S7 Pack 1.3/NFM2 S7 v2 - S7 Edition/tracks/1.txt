@@ -10,7 +10,7 @@ density(8)
 lightson()
 
 name(New Begining Makes You Stronger)
-nlaps(3)
+nlaps(1)
 //changing laps count as cheating! 
 
 set(47,0,0,0)p

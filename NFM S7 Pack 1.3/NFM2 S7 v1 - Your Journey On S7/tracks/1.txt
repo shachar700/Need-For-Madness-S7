@@ -11,7 +11,7 @@ polys(0,255,0)
 fadefrom(8000)
 density(8)
 
-nlaps(4)
+nlaps(1)
 
 set(47,0,0,0)p
 set(10,0,5600,180)p

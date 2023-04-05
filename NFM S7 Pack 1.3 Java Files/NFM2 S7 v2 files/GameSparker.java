@@ -16,6 +16,7 @@ import java.net.URISyntaxException;
 import java.net.URL;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
@@ -164,15 +165,13 @@ implements Runnable {
         return Integer.valueOf(s3);
     }
 
-    public int readcookie(String s)
-    {
+    public int readcookie(String s) {
         int i = -1;
-        try
-        {
+        try {
             BufferedReader br = new BufferedReader(new FileReader(new File("cookies/" + s)));
             i = Integer.parseInt(br.readLine());
+        } catch (Exception _ex) {
         }
-        catch(Exception _ex) { }
         return i;
     }
 
@@ -621,7 +620,7 @@ implements Runnable {
         boolean bool = false;
         float f = 35.0F;
         int i46 = 80;
-        i45 = readcookie("data/unlocked");
+        i45 = readcookie("unlocked");
         if(i45 >= 1 && i45 <= 19)
         {
             xtgraphics.unlocked = i45;
@@ -631,13 +630,13 @@ implements Runnable {
                 checkpoints.stage = (int)(Math.random() * 17D) + 1;
             xtgraphics.opselect = 0;
         }
-        i45 = readcookie("data/usercar");
+        i45 = readcookie("usercar");
         if(i45 >= 0 && i45 <= 16)
             xtgraphics.sc[0] = i45;
-        i45 = readcookie("data/gameprfact");
+        i45 = readcookie("gameprfact");
         if(i45 != -1)
         {
-            f = readcookie("data/gameprfact");
+            f = readcookie("gameprfact");
             i46 = 0;
         }
         bool = false;
@@ -762,10 +761,11 @@ implements Runnable {
                 xtgraphics.finish(checkpoints, contos, u[0]);
                 if(bool == true)
                 {
-                    if(checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 19)
-                        savecookie("unlocked", (new StringBuilder()).append("").append(xtgraphics.unlocked + 1).toString());
-                    savecookie("gameprfact", (new StringBuilder()).append("").append((int)f).toString());
-                    savecookie("usercar", (new StringBuilder()).append("").append(xtgraphics.sc[0]).toString());
+                	if (checkpoints.stage == xtgraphics.unlocked && xtgraphics.winner && xtgraphics.unlocked != 19) {
+                        savecookie("unlocked", "" + (xtgraphics.unlocked + 1));
+                    }
+                    savecookie("gameprfact", "" + (int) f);
+                    savecookie("usercar", "" + xtgraphics.sc[0]);
                     bool = false;
                 }
                 xtgraphics.ctachm(xm, ym, mouses, u[0], checkpoints);
@@ -803,7 +803,7 @@ implements Runnable {
                 xtgraphics.loadmusic(checkpoints.stage, i46);
                 if(!bool)
                 {
-                    savecookie("usercar", (new StringBuilder()).append("").append(xtgraphics.sc[0]).toString());
+                	savecookie("usercar", "" + xtgraphics.sc[0]);
                     bool = true;
                 }
             }
@@ -1725,24 +1725,41 @@ implements Runnable {
         return f.mkdir();
     }
 
-    private void loadData() {
-        try {
-            properties = new HashMap();
-            File localFile = new File("data/user.data");
-            if (localFile.exists()) {
-                String str;
-                BufferedReader in = new BufferedReader(new FileReader(localFile));
-                while ((str = in.readLine()) != null) {
-                    String key = str.substring(0, str.indexOf("("));
-                    String value = getstring(key, str, 0);
+    private void loadData(){
+        try{
+            properties=new HashMap();
+            File localFile=new File("data/user.data");
+            if(localFile.exists()){
+                BufferedReader in=new BufferedReader(new FileReader(localFile));
+                String str,key,value;
+                while((str=in.readLine())!=null){
+                    key=str.substring(0,str.indexOf("("));
+                    value=getstring(key, str, 0);
                     properties.put(key, value);
                 }
                 in.close();
             }
             System.out.println("User data loaded.");
+        }catch(Exception ex){
+            System.out.println("Error while loading user data: "+ex.toString());
         }
-        catch (Exception ex) {
-            System.out.println("Error while loading user data: " + ex.toString());
+    }
+   
+    private void saveData(){
+        try{
+            File localFile=new File("data/user.data");
+            if(!localFile.exists())
+                localFile.createNewFile();
+            PrintWriter out=new PrintWriter(localFile);
+            Iterator<Map.Entry<String, String>> iterator = properties.entrySet().iterator();
+            while(iterator.hasNext()){
+                Map.Entry<String, String> entry=iterator.next();
+                out.println(entry.getKey()+"("+entry.getValue()+")");
+            }
+            out.close();
+            System.out.println("User data saved.");
+        }catch(Exception ex){
+            System.out.println("Error while saving user data: "+ex.toString());
         }
     }
 }
