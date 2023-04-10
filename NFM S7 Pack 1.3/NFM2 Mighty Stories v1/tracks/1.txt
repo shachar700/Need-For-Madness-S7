@@ -11,7 +11,7 @@ polys(97,112,218)
 fadefrom(8000)
 density(10)
 
-nlaps(1)
+nlaps(2)
 
 set(47,0,0,0)
 chk(40,0,3375,0)

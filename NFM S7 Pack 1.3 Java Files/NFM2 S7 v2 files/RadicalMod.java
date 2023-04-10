@@ -1,39 +1,36 @@
-/*
- * Decompiled with CFR 0.150.
- * 
- * Could not load the following classes:
- *  sun.audio.AudioPlayer
- */
 import java.applet.Applet;
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
+import java.io.*;
 import java.net.URL;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipInputStream;
 import sun.audio.AudioPlayer;
 
-public class RadicalMod {
-    byte[] modf;
+public class RadicalMod
+{
+
+    byte modf[];
     SuperStream stream;
     SuperClip sClip;
-    boolean suny = false;
-    boolean playing = false;
-    int loaded = 1;
-    String name = "";
+    boolean suny;
+    boolean playing;
+    int loaded;
 
-    public void stop() {
-        if (this.playing && this.loaded == 2) {
-            if (this.suny) {
-                this.sClip.stop();
-            } else {
-                try {
-                    AudioPlayer.player.stop((InputStream)this.stream);
+    public void stop()
+    {
+        if(playing && loaded == 2)
+        {
+            if(suny)
+            {
+                sClip.stop();
+            } else
+            {
+                try
+                {
+                    AudioPlayer.player.stop(stream);
                 }
-                catch (Exception exception) {
-                    // empty catch block
-                }
+                catch(Exception _ex) { }
             }
-            this.playing = false;
+            playing = false;
         }
     }
 
@@ -42,7 +39,6 @@ public class RadicalMod {
         suny = false;
         playing = false;
         loaded = 0;
-        name = "";
         loaded = 1;
         try
         {
@@ -62,154 +58,184 @@ public class RadicalMod {
         }
         catch(Exception exception)
         {
-            System.out.println((new StringBuilder()).append("Error loading Mod from zip file: ").append(exception).toString());
+            System.out.println("Error loading Mod from zip file: " + exception);
             loaded = 0;
         }
     }
 
-    public void resume() {
-        if (!this.playing && this.loaded == 2) {
-            if (this.suny) {
-                this.sClip.resume();
-                if (this.sClip.stoped == 0) {
-                    this.playing = true;
+    public void resume()
+    {
+        if(!playing && loaded == 2)
+        {
+            if(suny)
+            {
+                sClip.resume();
+                if(sClip.stoped == 0)
+                {
+                    playing = true;
                 }
-            } else {
-                try {
-                    AudioPlayer.player.start((InputStream)this.stream);
+            } else
+            {
+                try
+                {
+                    AudioPlayer.player.start(stream);
                 }
-                catch (Exception exception) {
-                    // empty catch block
-                }
-                this.playing = true;
+                catch(Exception _ex) { }
+                playing = true;
             }
         }
     }
 
-    protected void unloadAll() {
-        if (this.playing && this.loaded == 2) {
-            if (this.suny) {
-                this.sClip.stop();
-            } else {
-                try {
-                    AudioPlayer.player.stop((InputStream)this.stream);
+    protected void unloadAll()
+    {
+        if(playing && loaded == 2)
+        {
+            if(suny)
+            {
+                sClip.stop();
+            } else
+            {
+                try
+                {
+                    AudioPlayer.player.stop(stream);
                 }
-                catch (Exception exception) {
-                    // empty catch block
-                }
+                catch(Exception _ex) { }
             }
         }
-        try {
-            if (this.suny) {
-                this.sClip.close();
-                this.sClip = null;
-            } else {
-                this.stream.close();
-                this.stream = null;
+        try
+        {
+            if(suny)
+            {
+                sClip.close();
+                sClip = null;
+            } else
+            {
+                stream.close();
+                stream = null;
             }
         }
-        catch (Exception exception) {
-            // empty catch block
+        catch(Exception _ex) { }
+        try
+        {
+            modf = null;
         }
-        try {
-            this.modf = null;
-        }
-        catch (Exception exception) {
-            // empty catch block
-        }
+        catch(Exception _ex) { }
         System.gc();
     }
 
-    public void play() {
-        if (!this.playing && this.loaded == 2) {
-            if (this.suny) {
-                this.sClip.play();
-                if (this.sClip.stoped == 0) {
-                    this.playing = true;
+    public void play()
+    {
+        if(!playing && loaded == 2)
+        {
+            if(suny)
+            {
+                sClip.play();
+                if(sClip.stoped == 0)
+                {
+                    playing = true;
                 }
-            } else {
-                if (this.stream != null) {
-                    this.stream.reset();
+            } else
+            {
+                if(stream != null)
+                {
+                    stream.reset();
                 }
-                try {
-                    AudioPlayer.player.start((InputStream)this.stream);
+                try
+                {
+                    AudioPlayer.player.start(stream);
                 }
-                catch (Exception exception) {
-                    // empty catch block
-                }
-                this.playing = true;
+                catch(Exception _ex) { }
+                playing = true;
             }
         }
     }
 
-    protected void unloadMod() {
-        if (this.loaded == 2) {
-            if (this.playing) {
-                if (this.suny) {
-                    this.sClip.stop();
-                } else {
-                    try {
-                        AudioPlayer.player.stop((InputStream)this.stream);
+    protected void unloadMod()
+    {
+        if(loaded == 2)
+        {
+            if(playing)
+            {
+                if(suny)
+                {
+                    sClip.stop();
+                } else
+                {
+                    try
+                    {
+                        AudioPlayer.player.stop(stream);
                     }
-                    catch (Exception exception) {
-                        // empty catch block
-                    }
+                    catch(Exception _ex) { }
                 }
-                this.playing = false;
+                playing = false;
             }
-            try {
-                if (this.suny) {
-                    this.sClip.close();
-                    this.sClip = null;
-                } else {
-                    this.stream.close();
-                    this.stream = null;
+            try
+            {
+                if(suny)
+                {
+                    sClip.close();
+                    sClip = null;
+                } else
+                {
+                    stream.close();
+                    stream = null;
                 }
             }
-            catch (Exception exception) {
-                // empty catch block
-            }
+            catch(Exception _ex) { }
             System.gc();
-            this.loaded = 1;
+            loaded = 1;
         }
     }
 
-    public void loadMod(int i, int j, int k, boolean flag, boolean flag1) {
-        if (this.loaded == 1) {
-            this.loaded = 2;
-            this.suny = flag;
+    public void loadMod(int i, int j, int k, boolean flag, boolean flag1)
+    {
+        if(loaded == 1)
+        {
+            loaded = 2;
+            suny = flag;
             int l = 22000;
-            if (flag1) {
-                this.suny = false;
+            if(flag1)
+            {
+                suny = false;
             }
-            if (this.suny) {
-                j = (int)((float)j / 8000.0f * 2.0f * (float)l);
+            if(suny)
+            {
+                j = (int)(((float)j / 8000F) * 2.0F * (float)l);
             }
-            if (!this.suny) {
-                i = !flag1 ? (int)((double)i * 1.5) : (int)((double)i * 2.2);
+            if(!suny)
+            {
+                if(!flag1)
+                {
+                    i = (int)((double)i * 1.5D);
+                } else
+                {
+                    i = (int)((double)i * 2.2000000000000002D);
+                }
             }
-            Mod mod = new Mod(new ByteArrayInputStream(this.modf));
-            this.name = mod.getName();
+            Mod mod = new Mod(new ByteArrayInputStream(modf));
             ModSlayer modslayer = new ModSlayer(mod, j, i, k);
-            try {
-                if (this.suny) {
-                    byte[] abyte0 = modslayer.turnbytesNorm();
-                    this.sClip = new SuperClip(abyte0, modslayer.oln, l);
-                } else {
-                    byte[] abyte1 = modslayer.turnbytesUlaw();
-                    this.stream = new SuperStream(abyte1);
+            try
+            {
+                if(suny)
+                {
+                    byte abyte0[] = modslayer.turnbytesNorm();
+                    sClip = new SuperClip(abyte0, modslayer.oln, l);
+                } else
+                {
+                    byte abyte1[] = modslayer.turnbytesUlaw();
+                    stream = new SuperStream(abyte1);
                 }
                 Object obj1 = null;
                 Object obj = null;
                 modslayer = null;
             }
-            catch (Exception exception) {
+            catch(Exception exception)
+            {
                 System.out.println("Error making a Mod: " + exception);
-                this.loaded = 0;
+                loaded = 0;
             }
             System.runFinalization();
             System.gc();
         }
     }
 }
-
